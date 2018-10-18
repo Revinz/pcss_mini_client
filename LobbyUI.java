@@ -1,5 +1,3 @@
-//Usually you will require both swing and awt packages
-// even if you are working with just swings.
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -13,18 +11,23 @@ import java.awt.event.ActionListener;
 public class LobbyUI {
 //	private BufferedReader in;
 //    private PrintWriter out;
+	//Setup of the program window
     private JFrame frame = new JFrame("Chat Frame"); 
-    private JPanel POnline = new JPanel(); // the panel is not visible in output
-    private JPanel SOnline = new JPanel(); // the panel is not visible in output
+    private JPanel POnline = new JPanel();
+    private JPanel SOnline = new JPanel();
     
 	public LobbyUI() {
-        JLabel POLabel = new JLabel("People Online");
-        POnline.add(POLabel); // Components Added using Flow Layout
+		//The frame for the people online
+        JLabel POLabel = new JLabel("People Online"); //Set the title of the frame
+        POnline.add(POLabel); //Create the frame
         //Get Online people from server
+        PeopleOnline();
         
-        JLabel SOLabel = new JLabel("Servers Online");
-        SOnline.add(SOLabel); // Components Added using Flow Layout
+        //The frame for the chatrooms online
+        JLabel SOLabel = new JLabel("Chatrooms Online"); //Set the title of the frame
+        SOnline.add(SOLabel); //Create the frame
         //Get Online servers from server
+        chatOnline();
         
 		//Adding Components to the frame.
         frame.getContentPane().add(BorderLayout.WEST, POnline);
@@ -33,56 +36,43 @@ public class LobbyUI {
 	
     public static void main(String args[]) {
     	LobbyUI client = new LobbyUI();
-        client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        client.frame.setSize(500, 500);
-        client.frame.setVisible(true);
-
-//        //Creating the panel at bottom and adding components
-//        JPanel panel = new JPanel(); // the panel is not visible in output
-//        JLabel label = new JLabel("Enter Text");
-//        JTextField tf = new JTextField(10); // accepts upto 10 characters
-//        JButton send = new JButton("Send");
-//        JButton reset = new JButton("Reset");
-//        panel.add(label); // Components Added using Flow Layout
-//        panel.add(tf);
-//        panel.add(send);
-//        panel.add(reset);
+        client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make the program close when the window is closed
+        client.frame.setSize(500, 500); //Set the size of the window
+        client.frame.setVisible(true); //Make the window visible
 
     }
     
-//    public void PeopleOnline() {
-//    	//Get how many people are online from server and their username
-//    	int peopleOnlines=5;
-//    	String Username = "Bill";
-//    	for (int i=0; i<peopleOnlines;i++) {
-//    		JButton Person = new JButton(Username);
-//    		POnline.add(Person);
-//    		Person.addActionListener(new ActionListener() {
-//    	        
-//    			@Override
-//    			public void actionPerformed(ActionEvent arg0) {
-//    					//Start Chat with this person;				
-//    			}          
-//    	    });
-//    	}              
-//    }
-//    
-//    
-//    public void ServerOnline() {
-//    	//Get how many servers are online from server
-//    	int ServersOnlies=5;
-//    	for (int i=0; i<ServersOnlies;i++) {
-//    		JButton Server = new JButton("Server: "+i);
-//    		SOnline.add(Server);
-//    		Server.addActionListener(new ActionListener() {
-//    	        
-//    			@Override
-//    			public void actionPerformed(ActionEvent arg0) {
-//    					//Join Server;				
-//    			}          
-//    	    });
-//    	}
-//    }
+    public void PeopleOnline() {
+    	//Get array of the usernames from the server
+    	int[] peopleOnlines;
+    	for (int i=0; i<peopleOnlines.length;i++) {
+    		JButton Person = new JButton(peopleOnlines[i]); //Create a button for each person online
+    		POnline.add(Person); //Add the button to the people online frame
+    		//Create a listener for the button
+    		Person.addActionListener(new ActionListener() {
+    			@Override
+    			public void actionPerformed(ActionEvent arg0) {
+    					//Start Chat with this person;				
+    			}          
+    	    });
+    	}              
+    }
+  
+    public void chatOnline() {
+    	//Get array of the chat rooms from the server
+    	int[] ChatesOnline;
+    	for (int i=0; i<ChatesOnline.length;i++) {
+    		JButton Server = new JButton(ChatesOnline[i]);//Create a button for each chatroom online
+    		SOnline.add(Server); //Add the button to the chatrooms online frame
+    		//Create a listener for the button
+    		Server.addActionListener(new ActionListener() {
+    			@Override
+    			public void actionPerformed(ActionEvent arg0) {
+    					//Join Server;				
+    			}          
+    	    });
+    	}
+    }
     
 //    public void connectToServer() throws IOException {
 //
