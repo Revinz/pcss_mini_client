@@ -8,30 +8,38 @@ import java.net.Socket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LobbyUI {
+public class LobbyUI extends JPanel{
 //	private BufferedReader in;
 //    private PrintWriter out;
 	//Setup of the program window
     private JFrame frame = new JFrame("Chat Frame"); 
     private JPanel POnline = new JPanel();
     private JPanel SOnline = new JPanel();
+    private JPanel CreateServerPanel = new JPanel();
     
 	public LobbyUI() {
+		setLayout( new BorderLayout() );
 		//The frame for the people online
-        JLabel POLabel = new JLabel("People Online"); //Set the title of the frame
-        POnline.add(POLabel); //Create the frame
+		POnline.setLayout(new GridLayout(0, 1));
+        JLabel POTitle = new JLabel("People Online");
+        POnline.add(POTitle);
         //Get Online people from server
         PeopleOnline();
-        
         //The frame for the chatrooms online
+        SOnline.setLayout(new GridLayout(0, 2));
         JLabel SOLabel = new JLabel("Chatrooms Online"); //Set the title of the frame
+        JLabel Ghost = new JLabel("");
         SOnline.add(SOLabel); //Create the frame
+        SOnline.add(Ghost);
         //Get Online servers from server
         chatOnline();
+        createServerUI();
         
+//        
 		//Adding Components to the frame.
-        frame.getContentPane().add(BorderLayout.WEST, POnline);
+        frame.getContentPane().add(BorderLayout.EAST, POnline);
         frame.getContentPane().add(BorderLayout.CENTER, SOnline);
+        frame.getContentPane().add(BorderLayout.SOUTH,CreateServerPanel);
 	}
 	
     public static void main(String args[]) {
@@ -44,31 +52,46 @@ public class LobbyUI {
     
     public void PeopleOnline() {
     	//Get array of the usernames from the server
-    	int[] peopleOnlines;
+    	String[] RequestPeople = {"People"};
+    	String[] peopleOnlines = {"TestP1", "TestP2", "TestP3"};
     	for (int i=0; i<peopleOnlines.length;i++) {
-    		JButton Person = new JButton(peopleOnlines[i]); //Create a button for each person online
-    		POnline.add(Person); //Add the button to the people online frame
-    		//Create a listener for the button
-    		Person.addActionListener(new ActionListener() {
-    			@Override
-    			public void actionPerformed(ActionEvent arg0) {
-    					//Start Chat with this person;				
-    			}          
-    	    });
+    		JLabel Person = new JLabel(peopleOnlines[i]); //Create a button for each person online
+    		POnline.add(Person); //Add the Label for the people online frame
     	}              
+    }
+    public void createServerUI() {
+    	JTextField CreateServerTextField = new JTextField();
+    	JButton CreateChatroom = new JButton("Create");//Create a button for each chatroom online
+    	CreateServerPanel.add(CreateServerTextField);
+    	CreateServerPanel.add(CreateChatroom);
+    	CreateChatroom.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String[] RequestCreate;
+//				try {
+//					if () { //If JTextField is empty or null
+//						
+//					}
+//				} catch (IOException ex) {
+//                }
+			}          
+	    });
     }
   
     public void chatOnline() {
     	//Get array of the chat rooms from the server
-    	int[] ChatesOnline;
+    	String[] RequestChat = {"Chatrooms"};
+    	String[] ChatesOnline = {"TestS1", "TestS2", "TestS3"};
     	for (int i=0; i<ChatesOnline.length;i++) {
-    		JButton Server = new JButton(ChatesOnline[i]);//Create a button for each chatroom online
+    		JLabel ServerName = new JLabel(ChatesOnline[i]);
+    		JButton Server = new JButton("Join");//Create a button for each chatroom online
+    		SOnline.add(ServerName);
     		SOnline.add(Server); //Add the button to the chatrooms online frame
     		//Create a listener for the button
     		Server.addActionListener(new ActionListener() {
     			@Override
     			public void actionPerformed(ActionEvent arg0) {
-    					//Join Server;				
+ //   					String[] RequestJoin = {"Join",ChatesOnline[i]};
     			}          
     	    });
     	}
