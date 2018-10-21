@@ -13,7 +13,7 @@ public class Client {
 	Scanner scan = new Scanner(System.in);
 	boolean chatroom, loggedIn;
 	
-	// GUI
+	// GUI for login and chatroom
 	String      appName     = "Login you piece of shit";
     Client     mainGUI;
     JFrame      newFrame    = new JFrame(appName);
