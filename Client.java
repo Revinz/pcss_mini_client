@@ -1,4 +1,9 @@
-	import java.util.Scanner, java.io.DataInputStream, java.io.DataOutputStream, java.net.Socket;
+	import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.Scanner, java.io.DataInputStream, java.io.DataOutputStream, java.net.Socket;
 	
 
 
@@ -8,9 +13,9 @@ public class Client {
 	String userName;
 	String hostName = "localhost";
 	int port = 8000;
-	DataInputStream input;
-	DataOutputStream output;
-	Socket socket;
+	public static ObjectInputStream objectInput;
+	public static ObjectOutputStream objectOutput;
+	public static Socket socket;
 	Scanner scan = new Scanner(System.in);
 	boolean chatroom, loggedIn;
 	
@@ -22,8 +27,8 @@ public class Client {
 		
 		//Connect to server
 		socket = new Socket(hostName, port);
-		input = new DataInputStream(socket.getInputStream());
-		output = new DataOutputStream(socket.getOutputStream());
+		objectInput = new ObjectInputStream(socket.getInputStream());
+		objectOutput = new ObjectOutputStream(socket.getOutputStream());
 		
 		
 		

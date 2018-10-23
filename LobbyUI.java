@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -52,10 +54,9 @@ public class LobbyUI extends JPanel{
     
     public void PeopleOnline() {
     	//Get array of the usernames from the server
-    	String[] RequestPeople = {"People"};
-    	String[] peopleOnlines = {"TestP1", "TestP2", "TestP3"};
-    	for (int i=0; i<peopleOnlines.length;i++) {
-    		JLabel Person = new JLabel(peopleOnlines[i]); //Create a button for each person online
+    	List UserName = getOnlineUsers();
+    	for (int i=0; i<UserName.size();i++) {
+    		JLabel Person = new JLabel((String) UserName.get(i)); //Create a button for each person online
     		POnline.add(Person); //Add the Label for the people online frame
     	}              
     }
@@ -68,22 +69,66 @@ public class LobbyUI extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String[] RequestCreate;
-//				try {
-//					if () { //If JTextField is empty or null
-//						
-//					}
-//				} catch (IOException ex) {
-//                }
 			}          
 	    });
     }
-  
+    public List getOnlineUsers() {
+    	try {
+    		List<String> command = new ArrayList<String>();
+    		command.add("GET ONLINE USERS");
+    		Client.objectOutput.writeObject(command);
+			List<String> RequestOnlineUsers = (List<String>) Client.objectInput.readObject();
+			return RequestOnlineUsers;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+    }
+    public List getChatrooms() {
+    	try {
+    		List<String> command = new ArrayList<String>();
+    		command.add("GET CHATROOMS");
+    		Client.objectOutput.writeObject(command);
+			List<String> RequestChat = (List<String>) Client.objectInput.readObject();
+			return RequestChat;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+    }
+    
+    public List joinChatroom(String ChatroomName) {
+    	try {
+    		List<String> command = new ArrayList<String>();
+    		command.add("JOIN CHATROOM");
+    		command.add(ChatroomName);
+    		Client.objectOutput.writeObject(command);
+			List<String> RequestJoin = (List<String>) Client.objectInput.readObject();
+			return RequestJoin;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+    }
+   
+    static int i = 0;
     public void chatOnline() {
     	//Get array of the chat rooms from the server
-    	String[] RequestChat = {"Chatrooms"};
-    	String[] ChatesOnline = {"TestS1", "TestS2", "TestS3"};
-    	for (int i=0; i<ChatesOnline.length;i++) {
-    		JLabel ServerName = new JLabel(ChatesOnline[i]);
+    	List ChatroomNames = getChatrooms();
+    	for (i=0; i<ChatroomNames.size();i++) {
+    		JLabel ServerName = new JLabel((String) ChatroomNames.get(i));
     		JButton Server = new JButton("Join");//Create a button for each chatroom online
     		SOnline.add(ServerName);
     		SOnline.add(Server); //Add the button to the chatrooms online frame
@@ -91,26 +136,11 @@ public class LobbyUI extends JPanel{
     		Server.addActionListener(new ActionListener() {
     			@Override
     			public void actionPerformed(ActionEvent arg0) {
- //   					String[] RequestJoin = {"Join",ChatesOnline[i]};
+    				List ChatJoin = joinChatroom((String)ChatroomNames.get(i));
+    				
+    				
     			}          
     	    });
     	}
     }
-    
-//    public void connectToServer() throws IOException {
-//
-//        // Get the server address from a dialog box.
-//        String serverAddress = JOptionPane.showInputDialog(
-//            frame,
-//            "Enter IP Address of the Server:",
-//            JOptionPane.QUESTION_MESSAGE);
-//
-//        // Make connection and initialize streams
-//        Socket socket = new Socket(serverAddress, 9898);
-//        in = new BufferedReader(
-//                new InputStreamReader(socket.getInputStream()));
-//        out = new PrintWriter(socket.getOutputStream(), true);
-//
-//        
-//    }
 }
