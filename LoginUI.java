@@ -7,6 +7,13 @@ import java.awt.Insets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -107,7 +114,23 @@ class LoginUI {
             if ((password.length() < 1) || (username.length() < 1)) {
                 System.out.println("Enter a valid username or a IP-address");
             } else {
-                loggedIn = true;
+            	Client.hostName = password;
+            	try {
+            		Client.socket = new Socket(Client.hostName, Client.port);
+            		Client.objectInput = new ObjectInputStream(Client.socket.getInputStream());
+            		Client.objectOutput = new ObjectOutputStream(Client.socket.getOutputStream());
+            		ArrayList<String> command = new ArrayList<String>();
+            		command.add("CREATE USER");
+            		command.add(username);
+            		Client.objectOutput.writeObject(command);
+        			Client.objectOutput.flush();
+        			LobbyUI Lobby = new LobbyUI();
+            		}
+            		catch (UnknownHostException e) {
+                        System.err.println("Don't know about host: taranis");
+                    } catch (IOException e) {
+                        System.err.println("Couldn't get I/O for the connection to:" + Client.hostName);
+                    }
             }
         }
 

@@ -42,9 +42,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to:" + hostName);
         }
-		
-		
-		LobbyUI lobby = new LobbyUI();
 
 		
 		if(!loggedIn)
