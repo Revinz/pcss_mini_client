@@ -30,7 +30,6 @@ public class LobbyUI extends JPanel{
 		
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make the program close when the window is closed
         frame.setSize(500, 500); //Set the size of the window
-        frame.setVisible(true); //Make the window visible
 		
 		setLayout( new BorderLayout() );
 		//The frame for the people online
@@ -67,8 +66,6 @@ public class LobbyUI extends JPanel{
         frame.getContentPane().add(BorderLayout.SOUTH,CreateChatPanel);
         frame.setVisible(true);
         System.out.println("View created");
-        
-   
 	}
 	
     

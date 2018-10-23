@@ -26,25 +26,10 @@ public class Client {
 	static boolean loggedIn;
 	
 	
-	
-	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		LoginUI login = new LoginUI();
 		
-		//Connect to server
-		try {
-		socket = new Socket(hostName, port);
-		objectInput = new ObjectInputStream(socket.getInputStream());
-		objectOutput = new ObjectOutputStream(socket.getOutputStream());
-		}
-		catch (UnknownHostException e) {
-            System.err.println("Don't know about host: taranis");
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to:" + hostName);
-        }
-
-		LobbyUI lobby = new LobbyUI();
-	
 	}//end of main
 	
 

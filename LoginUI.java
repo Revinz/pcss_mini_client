@@ -34,8 +34,10 @@ class LoginUI {
     JTextField  usernameChooser;
     JTextField  passwordChooser;
     JFrame      preFrame;
-
-    public static void main(String[] args) {
+    
+    LoginUI() {
+    	
+    	//Open the app window
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -50,7 +52,6 @@ class LoginUI {
             }
         });
     }
-
 
 
 
