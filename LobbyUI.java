@@ -66,6 +66,17 @@ public class LobbyUI extends JPanel{
         frame.getContentPane().add(BorderLayout.SOUTH,CreateChatPanel);
         frame.setVisible(true);
         System.out.println("View created");
+        
+        while (true){
+        	PeopleOnline();
+        	chatOnline();
+        	try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
 	}
 	
     

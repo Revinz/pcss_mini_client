@@ -26,7 +26,6 @@ import javax.swing.UIManager;
 class LoginUI {
     boolean     loggedIn = false;
     String      appName     = "Login you piece of shit";
-    LoginUI     mainGUI;
     JFrame      newFrame    = new JFrame(appName);
     JButton     sendMessage;
     JTextField  messageBox;
@@ -37,20 +36,13 @@ class LoginUI {
     
     LoginUI() {
     	
-    	//Open the app window
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager
                             .getSystemLookAndFeelClassName());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                LoginUI mainGUI = new LoginUI();
-                mainGUI.preDisplay();
-            }
-        });
+                preDisplay();
     }
 
 
@@ -121,7 +113,6 @@ class LoginUI {
             		Client.objectInput = new ObjectInputStream(Client.socket.getInputStream());
             		Client.objectOutput = new ObjectOutputStream(Client.socket.getOutputStream());
             		ArrayList<String> command = new ArrayList<String>();
-            		command.add("CREATE USER");
             		command.add(username);
             		Client.objectOutput.writeObject(command);
         			Client.objectOutput.flush();
