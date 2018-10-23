@@ -1,7 +1,12 @@
 import javax.swing.*;
+
+
 import java.awt.*;
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -67,24 +72,35 @@ public class LobbyUI extends JPanel{
         frame.setVisible(true);
         System.out.println("View created");
         
-        while (true){
-        	PeopleOnline();
-        	chatOnline();
-        	try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }
+        
+		//Run the client requesting on another thread.
+		new Thread(() -> {
+
+	        while (true){
+	        	PeopleOnline();
+	        	chatOnline();
+	        	frame.revalidate();
+	        	frame.repaint();
+	        	try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+
+		}).start();
+       
 	}
 	
     
     public void PeopleOnline() {
     	//Get array of the usernames from the server
     	ArrayList<String> UserName = getOnlineUsers();
+    	POnline.removeAll();
     	for (int i=0; i<UserName.size();i++) {
     		JLabel Person = new JLabel(UserName.get(i)); //Create a button for each person online
+    		System.out.println("------ Users Online --------");
     		System.out.println("Username: " + UserName.get(i));
     		POnline.add(Person); //Add the Label for the people online frame
     	}              
@@ -92,6 +108,7 @@ public class LobbyUI extends JPanel{
     
     public void createChatroom() {
     	JTextField CreateChatroomTextField = new JTextField(40);
+    	
     	JButton CreateChatroomButton = new JButton("Create Chatroom");//Create a button for each chatroom online
     	CreateChatPanel.add(CreateChatroomTextField);
     	CreateChatPanel.add(CreateChatroomButton);
@@ -192,6 +209,7 @@ public class LobbyUI extends JPanel{
     public void chatOnline() {
     	//Get array of the chat rooms from the server
     	ChatroomNames = getChatrooms();
+    	COnline.removeAll();
     	for (i=0; i<ChatroomNames.size();i++) {
     		JLabel ChatName = new JLabel(ChatroomNames.get(i));
     		JButton ChatroomJoinButton = new JButton("Join");//Create a button for each chatroom online
