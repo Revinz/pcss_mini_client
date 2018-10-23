@@ -16,6 +16,18 @@ public class LobbyUI extends JPanel{
     
 	public LobbyUI() {
 		
+		//Temporary username
+		ArrayList<String> name = new ArrayList<String>();
+		name.add("TEST USER");
+		try {
+			Client.objectOutput.writeObject(name);
+			Client.objectOutput.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make the program close when the window is closed
         frame.setSize(500, 500); //Set the size of the window
         frame.setVisible(true); //Make the window visible
@@ -25,8 +37,12 @@ public class LobbyUI extends JPanel{
 		POnline.setLayout(new GridLayout(0, 1));
         JLabel POTitle = new JLabel("People Online");
         POnline.add(POTitle);
+       
         //Get Online people from server
         PeopleOnline();
+        
+        System.out.println("Online list created");
+        
         //The frame for the chatrooms online
         COnline.setLayout(new GridLayout(0, 2));
         JLabel SOLabel = new JLabel("Chatrooms Online"); //Set the title of the frame
@@ -34,14 +50,25 @@ public class LobbyUI extends JPanel{
         COnline.add(SOLabel); //Create the frame
         COnline.add(Ghost);
         //Get Online servers from server
+        
+        System.out.println("chat online before");
+        
         chatOnline();
+        
+        System.out.println("Chat Online");
+        
         createChatroom();
         
-//        
+        System.out.println("Create chatroom");
+            
 		//Adding Components to the frame.
         frame.getContentPane().add(BorderLayout.EAST, POnline);
         frame.getContentPane().add(BorderLayout.CENTER, COnline);
         frame.getContentPane().add(BorderLayout.SOUTH,CreateChatPanel);
+        frame.setVisible(true);
+        System.out.println("View created");
+        
+   
 	}
 	
     
@@ -50,6 +77,7 @@ public class LobbyUI extends JPanel{
     	ArrayList<String> UserName = getOnlineUsers();
     	for (int i=0; i<UserName.size();i++) {
     		JLabel Person = new JLabel(UserName.get(i)); //Create a button for each person online
+    		System.out.println("Username: " + UserName.get(i));
     		POnline.add(Person); //Add the Label for the people online frame
     	}              
     }

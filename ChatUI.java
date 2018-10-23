@@ -51,7 +51,7 @@ class ChatUI {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                ChatUI mainGUI = new ChatUI();
+                ChatUI mainGUI = new ChatUI("Test");
                 mainGUI.chatDisplay();
             }
         });

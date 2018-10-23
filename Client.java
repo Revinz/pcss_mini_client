@@ -43,46 +43,8 @@ public class Client {
             System.err.println("Couldn't get I/O for the connection to:" + hostName);
         }
 
-		
-		if(!loggedIn)
-		{
-		
-		//Run Login UI
-			
-			loggedIn = true;//once a username is generated, and accepted by the server
-		}
-		
-		//while loop starts here
-		while(loggedIn);
-		{
-		
-			
-			if(!chatroom)
-			{
-		//Run Lobby UI
-		
-		//Enter a chatroom
-			
-				chatroom = true; //once server allows access into a chatroom, either by creating a new one or joining an existing one
-			}
-			else if(chatroom)
-			{
-			
-		
-		//Type msges - send them to server - retrieve msges from server
-				
-				scan.nextLine(); //send this to server
-				
-		//Leave chatroom
-				
-				chatroom = false; //upon leaving chatroom
-			}
-			
-			
-			
-		
-		}//end of while loop
-		
+		LobbyUI lobby = new LobbyUI();
+	
 	}//end of main
 	
 
