@@ -53,12 +53,19 @@ class ChatUI {
         back.addActionListener(new backButtonListener()); //This is the back butten from chatroom to lobby
 
 
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
+
+
         JPanel southPanel = new JPanel();
-        southPanel.setBackground(Color.pink);
+        southPanel.setBackground(Color.getHSBColor(0, 0, 255));
         southPanel.setLayout(new GridBagLayout());
+
+        JPanel playerPanel = new JPanel();
+        playerPanel.setLayout(new GridBagLayout());
+        playerPanel.setBackground(Color.getHSBColor(55, 55, 55));
 
         messageBox = new JTextField(30);
         messageBox.requestFocusInWindow();
@@ -72,6 +79,7 @@ class ChatUI {
         chatBox.setLineWrap(true);
 
         mainPanel.add(new JScrollPane(chatBox), BorderLayout.CENTER);
+        //playerPanel.add(new JScrollPane(chatBox), BorderLayout.CENTER);
 
         GridBagConstraints left = new GridBagConstraints();
         left.anchor = GridBagConstraints.LINE_START;
@@ -88,10 +96,12 @@ class ChatUI {
 
         southPanel.add(messageBox, left);
         southPanel.add(sendMessage, right);
-        southPanel.add(back, right);
+
+
+        playerPanel.add(back, right);
 
         mainPanel.add(BorderLayout.SOUTH, southPanel);
-
+        mainPanel.add(BorderLayout.WEST, playerPanel);
         newFrame.add(mainPanel);
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newFrame.setSize(500, 500);
