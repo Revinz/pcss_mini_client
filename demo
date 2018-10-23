@@ -151,7 +151,7 @@ class MainGUI {
         public void actionPerformed(ActionEvent event) {
             if (messageBox.getText().length() < 1) {
                 // do nothing
-                System.out.println("NOOOOOooooo.....");
+                System.out.println("Nothing has been written");
             } else if (messageBox.getText().equals(".clear")) {     // this is popularly not necessary, but if you type ".clear" it will clear the message bord
                 chatBox.setText("Cleared all messages\n");
                 messageBox.setText("");
