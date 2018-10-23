@@ -1,9 +1,12 @@
-	import java.io.DataInputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Scanner, java.io.DataInputStream, java.io.DataOutputStream, java.net.Socket;
+import java.util.Scanner;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
 	
 
 
@@ -27,12 +30,16 @@ public class Client {
 		// TODO Auto-generated method stub
 		
 		//Connect to server
+		try {
 		socket = new Socket(hostName, port);
 		objectInput = new ObjectInputStream(socket.getInputStream());
 		objectOutput = new ObjectOutputStream(socket.getOutputStream());
+		}
 		
-		
-		
+		catch (Exception e)  {
+			
+			
+		}
 		
 		if(!loggedIn)
 		{
