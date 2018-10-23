@@ -1,5 +1,3 @@
-package com.company;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -31,7 +29,19 @@ class ChatUI {
     JTextArea   chatBox;
 
 
-    public static void main(String[] args) {
+    public ChatUI(String chatroomName) {
+		// TODO Auto-generated constructor stub
+    	
+    	// TODO Get chatroom log
+    	
+    	// TODO Add messages to the chat
+    	
+    	// TODO Get chatroom users
+    	
+    	// TODO Show chatroom users in list
+	}
+
+	public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

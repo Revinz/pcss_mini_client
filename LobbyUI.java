@@ -1,12 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,8 +11,8 @@ public class LobbyUI extends JPanel{
 	//Setup of the program window
     private JFrame frame = new JFrame("Chat Frame"); 
     private JPanel POnline = new JPanel();
-    private JPanel SOnline = new JPanel();
-    private JPanel CreateServerPanel = new JPanel();
+    private JPanel COnline = new JPanel();
+    private JPanel CreateChatPanel = new JPanel();
     
 	public LobbyUI() {
 		
@@ -31,60 +26,85 @@ public class LobbyUI extends JPanel{
         JLabel POTitle = new JLabel("People Online");
         POnline.add(POTitle);
         //Get Online people from server
-        try {
-        	ArrayList<String> name = new ArrayList<String>();
-        	name.add("Test User");
-			Client.objectOutput.writeObject(name);
-			Client.objectOutput.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-        //PeopleOnline();
+        PeopleOnline();
         //The frame for the chatrooms online
-        SOnline.setLayout(new GridLayout(0, 2));
+        COnline.setLayout(new GridLayout(0, 2));
         JLabel SOLabel = new JLabel("Chatrooms Online"); //Set the title of the frame
         JLabel Ghost = new JLabel("");
-        SOnline.add(SOLabel); //Create the frame
-        SOnline.add(Ghost);
+        COnline.add(SOLabel); //Create the frame
+        COnline.add(Ghost);
         //Get Online servers from server
         chatOnline();
-        createServerUI();
+        createChatroom();
         
 //        
 		//Adding Components to the frame.
         frame.getContentPane().add(BorderLayout.EAST, POnline);
-        frame.getContentPane().add(BorderLayout.CENTER, SOnline);
-        frame.getContentPane().add(BorderLayout.SOUTH,CreateServerPanel);
+        frame.getContentPane().add(BorderLayout.CENTER, COnline);
+        frame.getContentPane().add(BorderLayout.SOUTH,CreateChatPanel);
 	}
 	
     
     public void PeopleOnline() {
     	//Get array of the usernames from the server
-    	List UserName = getOnlineUsers();
+    	ArrayList<String> UserName = getOnlineUsers();
     	for (int i=0; i<UserName.size();i++) {
-    		JLabel Person = new JLabel((String) UserName.get(i)); //Create a button for each person online
+    		JLabel Person = new JLabel(UserName.get(i)); //Create a button for each person online
     		POnline.add(Person); //Add the Label for the people online frame
     	}              
     }
-    public void createServerUI() {
-    	JTextField CreateServerTextField = new JTextField();
-    	JButton CreateChatroom = new JButton("Create");//Create a button for each chatroom online
-    	CreateServerPanel.add(CreateServerTextField);
-    	CreateServerPanel.add(CreateChatroom);
-    	CreateChatroom.addActionListener(new ActionListener() {
+    
+    public void createChatroom() {
+    	JTextField CreateChatroomTextField = new JTextField(40);
+    	JButton CreateChatroomButton = new JButton("Create Chatroom");//Create a button for each chatroom online
+    	CreateChatPanel.add(CreateChatroomTextField);
+    	CreateChatPanel.add(CreateChatroomButton);
+    	CreateChatroomButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String[] RequestCreate;
+				if (CreateChatroomMethod(CreateChatroomTextField.getText())) {
+						
+					ChatUI chatroom = new ChatUI(CreateChatroomTextField.getText());
+				
+				}
 			}          
 	    });
     }
-    public List getOnlineUsers() {
+    public boolean CreateChatroomMethod(String TxtFieldText){
     	try {
-    		List<String> command = new ArrayList<String>();
+    		if(TxtFieldText == "" && TxtFieldText != null) {
+    			return false;
+    		} else {
+    			
+    			for(String room : ChatroomNames ) {
+    				
+    				if (room.equals(TxtFieldText)) {
+    					return false;
+    				} else {
+    		    		ArrayList<String> command = new ArrayList<String>();
+    		    		command.add("CREATE CHATROOM");
+    		    		command.add(TxtFieldText);
+    		    		Client.objectOutput.writeObject(command);
+    					Client.objectOutput.flush();
+    					return true;
+    				}
+    			}
+    		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return false;
+    }
+    
+    public ArrayList<String> getOnlineUsers() {
+    	try {
+    		ArrayList<String> command = new ArrayList<String>();
     		command.add("GET ONLINE USERS");
     		Client.objectOutput.writeObject(command);
-			List<String> RequestOnlineUsers = (List<String>) Client.objectInput.readObject();
+			Client.objectOutput.flush();
+			ArrayList<String> RequestOnlineUsers = (ArrayList<String>) Client.objectInput.readObject();
 			return RequestOnlineUsers;
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -95,12 +115,14 @@ public class LobbyUI extends JPanel{
 		}
     	return null;
     }
-    public List getChatrooms() {
+    
+    public ArrayList<String> getChatrooms() {
     	try {
-    		List<String> command = new ArrayList<String>();
+    		ArrayList<String> command = new ArrayList<String>();
     		command.add("GET CHATROOMS");
     		Client.objectOutput.writeObject(command);
-			List<String> RequestChat = (List<String>) Client.objectInput.readObject();
+			Client.objectOutput.flush();
+    		ArrayList<String> RequestChat = (ArrayList<String>) Client.objectInput.readObject();
 			return RequestChat;
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -112,14 +134,14 @@ public class LobbyUI extends JPanel{
     	return null;
     }
     
-    public List joinChatroom(String ChatroomName) {
+    public void joinChatroom(String ChatroomName) {
     	try {
-    		List<String> command = new ArrayList<String>();
+    		ArrayList<String> command = new ArrayList<String>();
     		command.add("JOIN CHATROOM");
     		command.add(ChatroomName);
     		Client.objectOutput.writeObject(command);
-			List<String> RequestJoin = (List<String>) Client.objectInput.readObject();
-			return RequestJoin;
+			Client.objectOutput.flush();
+			ArrayList<String> RequestJoin = (ArrayList<String>) Client.objectInput.readObject();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,25 +149,24 @@ public class LobbyUI extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return null;
     }
    
     static int i = 0;
+    ArrayList<String> ChatroomNames = null;
     public void chatOnline() {
     	//Get array of the chat rooms from the server
-    	List ChatroomNames = getChatrooms();
+    	ChatroomNames = getChatrooms();
     	for (i=0; i<ChatroomNames.size();i++) {
-    		JLabel ServerName = new JLabel((String) ChatroomNames.get(i));
-    		JButton Server = new JButton("Join");//Create a button for each chatroom online
-    		SOnline.add(ServerName);
-    		SOnline.add(Server); //Add the button to the chatrooms online frame
+    		JLabel ChatName = new JLabel(ChatroomNames.get(i));
+    		JButton ChatroomJoinButton = new JButton("Join");//Create a button for each chatroom online
+    		COnline.add(ChatName);
+    		COnline.add(ChatroomJoinButton); //Add the button to the chatrooms online frame
     		//Create a listener for the button
-    		Server.addActionListener(new ActionListener() {
+    		ChatroomJoinButton.addActionListener(new ActionListener() {
     			@Override
     			public void actionPerformed(ActionEvent arg0) {
-    				List ChatJoin = joinChatroom((String)ChatroomNames.get(i));
-    				
-    				
+    				joinChatroom(ChatroomNames.get(i));
+    				ChatUI chatroom = new ChatUI(ChatroomNames.get(i));
     			}          
     	    });
     	}
