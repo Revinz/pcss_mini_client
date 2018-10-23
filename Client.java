@@ -10,14 +10,15 @@ import java.util.Scanner, java.io.DataInputStream, java.io.DataOutputStream, jav
 public class Client {
 	//Username in a String
 	//Scanner to receive input
-	String userName;
-	String hostName = "localhost";
-	int port = 8000;
+	static String userName;
+	static String hostName = "localhost";
+	static int port = 8000;
 	public static ObjectInputStream objectInput;
 	public static ObjectOutputStream objectOutput;
 	public static Socket socket;
-	Scanner scan = new Scanner(System.in);
-	boolean chatroom, loggedIn;
+	static Scanner scan = new Scanner(System.in);
+	static boolean chatroom;
+	static boolean loggedIn;
 	
 	
 	
@@ -61,11 +62,6 @@ public class Client {
 		//Type msges - send them to server - retrieve msges from server
 				
 				scan.nextLine(); //send this to server
-				
-				
-				System.out.println(input.readLine()); //get messages to print in the chatroom
-				
-				
 				
 		//Leave chatroom
 				
