@@ -1,8 +1,10 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -29,17 +31,27 @@ public class Client {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		
+		System.out.println("Connecting to server...");
 		//Connect to server
 		try {
+			System.out.println("Trying to create streams");
 		socket = new Socket(hostName, port);
+		System.out.println("Socket created");
 		objectInput = new ObjectInputStream(socket.getInputStream());
+		System.out.println("nputStream crated");
 		objectOutput = new ObjectOutputStream(socket.getOutputStream());
+		System.out.println("output created");
 		}
+		catch (UnknownHostException e) {
+            System.err.println("Don't know about host: taranis");
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to:" + hostName);
+        }
 		
-		catch (Exception e)  {
-			
-			
-		}
+		
+		LobbyUI lobby = new LobbyUI();
+
 		
 		if(!loggedIn)
 		{

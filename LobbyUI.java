@@ -20,13 +20,27 @@ public class LobbyUI extends JPanel{
     private JPanel CreateServerPanel = new JPanel();
     
 	public LobbyUI() {
+		
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make the program close when the window is closed
+        frame.setSize(500, 500); //Set the size of the window
+        frame.setVisible(true); //Make the window visible
+		
 		setLayout( new BorderLayout() );
 		//The frame for the people online
 		POnline.setLayout(new GridLayout(0, 1));
         JLabel POTitle = new JLabel("People Online");
         POnline.add(POTitle);
         //Get Online people from server
-        PeopleOnline();
+        try {
+        	ArrayList<String> name = new ArrayList<String>();
+        	name.add("Test User");
+			Client.objectOutput.writeObject(name);
+			Client.objectOutput.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+        //PeopleOnline();
         //The frame for the chatrooms online
         SOnline.setLayout(new GridLayout(0, 2));
         JLabel SOLabel = new JLabel("Chatrooms Online"); //Set the title of the frame
@@ -44,13 +58,6 @@ public class LobbyUI extends JPanel{
         frame.getContentPane().add(BorderLayout.SOUTH,CreateServerPanel);
 	}
 	
-    public static void main(String args[]) {
-    	LobbyUI client = new LobbyUI();
-        client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make the program close when the window is closed
-        client.frame.setSize(500, 500); //Set the size of the window
-        client.frame.setVisible(true); //Make the window visible
-
-    }
     
     public void PeopleOnline() {
     	//Get array of the usernames from the server
