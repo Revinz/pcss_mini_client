@@ -36,25 +36,9 @@ public class Client {
 	
 	//Communicate with server send / receive messages
 	
-	public void createRoom(String roomName)
-	{
-		//Create chatroom method
-		
-		
-	}
+
 	
-	public void joinRoom(String roomName)
-	{
-	//Join chatroom method
-	
-	}
-	
-	public void leaveRoom()
-	{
-	//Leave chatroom method
-	
-	}
-	
+
 	
 	
 }

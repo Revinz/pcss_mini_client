@@ -6,6 +6,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,36 +31,99 @@ class ChatUI {
     JButton     sendMessage;
     JTextField  messageBox;
     JTextArea   chatBox;
+    List<String> onlineUsers = new ArrayList<String>();
+    List<String> recievedMessages = new ArrayList<String>();
 
 
     public ChatUI(String chatroomName) {
 		// TODO Auto-generated constructor stub
-    	
-    	// TODO Get chatroom log
-    	
-    	// TODO Add messages to the chat
-    	
-    	// TODO Get chatroom users
-    	
-    	// TODO Show chatroom users in list
+    	chatDisplay();
+    	new Thread(() -> { //thread to recieve information from server
+
+	        while (true){
+	        	getMessages();
+	        	getOnlineUsers();
+	        	
+	        	try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+
+		}).start();
+       
 	}
-
-	public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager
-                            .getSystemLookAndFeelClassName());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                ChatUI mainGUI = new ChatUI("Test");
-                mainGUI.chatDisplay();
-            }
-        });
+    	// TODO Get chatroom log
+    
+    public ArrayList<String> getMessages() {
+   	try {
+   		ArrayList<String> command = new ArrayList<String>();
+   		command.add("GET MESSAGES");
+   		Client.objectOutput.writeObject(command);
+   		Client.objectOutput.flush();
+   		ArrayList<String> recievedMessages = (ArrayList<String>) Client.objectInput.readObject();
+   		return recievedMessages;
+   	} catch (ClassNotFoundException e) {
+   		// TODO Auto-generated catch block
+   		e.printStackTrace();
+   	} catch (IOException e) {
+   		// TODO Auto-generated catch block
+   		e.printStackTrace();
+   	}
+   	return null;
+   }
+    
+    	// TODO Add messages to the chat
+    public void sendMessage() //activate on send message
+    {
+    	try {
+    		ArrayList<String> command = new ArrayList<String>();
+    		command.add("SENDING MESSAGE");
+    		Client.objectOutput.writeObject(command);
+    		Client.objectOutput.flush();
+    		
+			Client.objectOutput.writeObject(sendMessage); //is this a String that can be sent? (sendMessage)
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
-
+    
+   
+    
+    	// TODO Get chatroom users
+    public ArrayList<String> getOnlineUsers() {
+    	try {
+    		ArrayList<String> command = new ArrayList<String>();
+    		command.add("GET ONLINE USERS");
+    		Client.objectOutput.writeObject(command);
+    		Client.objectOutput.flush();
+    		ArrayList<String> onlineUsers = (ArrayList<String>) Client.objectInput.readObject();
+    		return onlineUsers;
+    	} catch (ClassNotFoundException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	return null;
+    }
+	
+	
+	// TODO Show chatroom users in list
+	
+	public void printOnlineUsers()
+	{
+	 for(int i = 0; i < onlineUsers.size(); i++)
+	    {
+		 //window for usernames needed?
+	    	//print in window: onlineUsers.get(i);
+	    }
+	}
     //This is the GUI for the Chat (missing inpud from the other user)
     public void chatDisplay() {
         JButton back = new JButton("Back");
