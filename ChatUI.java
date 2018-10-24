@@ -43,32 +43,14 @@ class ChatUI {
     	new Thread(() -> { //thread to recieve information from server
 
 	        while (true){
-	        	getMessages();
-	        	getOnlineUsers();
-	        	
-	        	try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        }
-
-		}).start();
-       
-	}
-    	// TODO Get chatroom log
-    
-    public ArrayList<String> getMessages() {
-   	try {
-   		/*           
+	        	           
 
                 //Get the input from the client
                 ArrayList<String> Input = null;
 
                 try {
-                    Input = (ArrayList<String>) objectInputStream.readObject();
-                } catch (ClassNotFoundException e) {
+                    Input = (ArrayList<String>) Client.objectInput.readObject();
+                } catch (ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                     continue;
                 }
@@ -78,34 +60,44 @@ class ChatUI {
                     continue;
 
                 if (Input.get(0).equals("NEW MESSAGE")) {
-                	
-	 
-               
 
-	                    
-	                    for (ChatRoom i : Server.Chatrooms) {
-	                        if (i.RoomName.equals(ChatRoomName)) ;
-	                        {
-	                            for (ClientInfo Client : i.ClientsConnected) {
-	                                Client.objectOutputStream.writeObject(NewMessage);
-	                            }
-	                            i.Messages.add( new Message(Input.get(1), Input.get(2)));
-	                        }
-	                    }
-                	} catch (Exception e) {
-                		
-                	}
-}*/
-   		
-   		ArrayList<String> recievedMessages = (ArrayList<String>) Client.objectInput.readObject();
-   		return recievedMessages;
-   	} catch (ClassNotFoundException e) {
-   		// TODO Auto-generated catch block
-   		e.printStackTrace();
-   	} catch (IOException e) {
-   		// TODO Auto-generated catch block
-   		e.printStackTrace();
-   	}
+                	
+	 					try {
+							getMessages(Input);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} //runs the method for printing the new message
+	 					
+	 					Input = null; //empty input after message is recieved
+	                
+                	} 
+                
+                	getOnlineUsers(); //add to UI of chatroom
+                	
+                	try {
+    					Thread.sleep(50);
+    				} catch (InterruptedException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+}
+
+		}).start();
+       
+	}
+    	// TODO Get chatroom log
+    
+    public ArrayList<String> getMessages(ArrayList<String> Incoming) throws ClassNotFoundException, IOException {
+   	for( int i = 0; i < Incoming.size(); i++)
+	 {
+			 recievedMessages.add(Incoming.get(i));
+	 }
+	 
+	 chatBox.append(recievedMessages.get(1)+ " says: " + recievedMessages.get(2));
    	return null;
    }
     
@@ -232,6 +224,7 @@ class ChatUI {
             } else {
 
             	sendMessage();
+            	messageBox.setText("");
             }
             messageBox.requestFocusInWindow();
         }
