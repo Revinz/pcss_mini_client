@@ -57,6 +57,12 @@ public class Client {
 		
 	}//end of main
 	
+	public static void InterpretResponse() {
+		
+		
+		
+		
+	}
 
 	
 	//Communicate with server send / receive messages

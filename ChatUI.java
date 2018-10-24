@@ -46,16 +46,15 @@ class ChatUI {
 	        	           
                 //Get the input from the client
                 ArrayList<String> Input = null;
-
-                Input = Client.ReadServer();
+                System.out.println("Chatroom reading from server");
+                Input = Client.ReadServer();	
 
                 //If null skip checking for stuff
                 if (Input == null)
                     continue;
                 
                 if (Input.get(0).equals("NEW MESSAGE")) {
-
-                	
+             	
 	 					try {
 							getMessages(Input);
 						} catch (ClassNotFoundException e) {
