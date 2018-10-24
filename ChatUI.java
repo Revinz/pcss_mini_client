@@ -1,4 +1,4 @@
-import javax.swing.*;
+﻿import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -114,7 +114,7 @@ public class ChatUI {
         newFrame.getContentPane().add(SP_ONLINE);
         SP_ONLINE.setBounds(0, 34, 66, 390);
 
-        
+
 
         mainPanel.add(BorderLayout.SOUTH, southPanel);
         mainPanel.add(BorderLayout.WEST, playerPanel);
