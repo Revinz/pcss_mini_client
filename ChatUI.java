@@ -72,7 +72,7 @@ class ChatUI {
 							e.printStackTrace();
 						} //runs the method for printing the new message
 	 					
-	 					Input = null; //empty input after message is recieved
+	 					//Input = null; //empty input after message is recieved
 	                
                 	} 
                 
@@ -126,10 +126,17 @@ class ChatUI {
     	try {
     		ArrayList<String> command = new ArrayList<String>();
     		command.add("GET CHATROOM USERS");
+    		command.add(roomName);
     		Client.objectOutput.writeObject(command);
     		Client.objectOutput.flush();
     		ArrayList<String> onlineUsers = (ArrayList<String>) Client.objectInput.readObject();
-    		return onlineUsers;
+    		//type list of users into window:
+    		/*for(int i = 0; i < onlineUsers.size(); i++)
+    		  {
+    		  		print into window: onlineUsers.get(i);														<<<<<<<HERE IS SOMETHING FOR JONAS>>>>>>>>>>>>>
+    		  }
+    		  */
+    		 
     	} catch (ClassNotFoundException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
