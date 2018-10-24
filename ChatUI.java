@@ -76,7 +76,7 @@ class ChatUI {
 	                
                 	} 
                 
-                	getOnlineUsers(); //add to UI of chatroom
+                	//getOnlineUsers(); //add to UI of chatroom
                 	
                 	try {
     					Thread.sleep(50);
