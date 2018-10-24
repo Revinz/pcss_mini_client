@@ -31,23 +31,67 @@ class ChatUI {
     JFrame      newFrame    = new JFrame(appName);
     JButton     sendMessage;
     JTextField  messageBox;
-    static JTextArea   chatBox;
+    JTextArea   chatBox;
     List<String> onlineUsers = new ArrayList<String>();
-    static List<String> recievedMessages = new ArrayList<String>();
+    List<String> recievedMessages = new ArrayList<String>();
 
 
     public ChatUI(String chatroomName) {
     	roomName = chatroomName;
 		// TODO Auto-generated constructor stub
     	chatDisplay();
+    	new Thread(() -> { //thread to recieve information from server
 
+	        while (true){
+	        	           
+
+                //Get the input from the client
+                ArrayList<String> Input = null;
+
+                try {
+                    Input = (ArrayList<String>) Client.objectInput.readObject();
+                } catch (ClassNotFoundException | IOException e) {
+                    e.printStackTrace();
+                    continue;
+                }
+
+                //If null skip checking for stuff
+                if (Input == null)
+                    continue;
+
+                if (Input.get(0).equals("NEW MESSAGE")) {
+
+                	
+	 					try {
+							getMessages(Input);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} //runs the method for printing the new message
+	 					
+	 					//Input = null; //empty input after message is recieved
+	                
+                	} 
+                
+                	//getOnlineUsers(); //add to UI of chatroom
+                	
+                	try {
+    					Thread.sleep(50);
+    				} catch (InterruptedException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+}
+
+		}).start();
        
 	}
     	// TODO Get chatroom log
     
-    
-    	// TODO Add messages to the chat
-    public static ArrayList<String> getMessages(ArrayList<String> Incoming) throws ClassNotFoundException, IOException {
+    public ArrayList<String> getMessages(ArrayList<String> Incoming) throws ClassNotFoundException, IOException {
    	for( int i = 0; i < Incoming.size(); i++)
 	 {
 			 recievedMessages.add(Incoming.get(i));
@@ -57,7 +101,7 @@ class ChatUI {
    	return null;
    }
     
-    	
+    	// TODO Add messages to the chat
     public void sendMessage() //activate on send message
     {
     	try {
@@ -104,6 +148,16 @@ class ChatUI {
     }
 	
 	
+	// TODO Show chatroom users in list
+	
+	public void printOnlineUsers()
+	{
+	 for(int i = 0; i < onlineUsers.size(); i++)
+	    {
+		 //window for usernames needed?
+	    	//print in window: onlineUsers.get(i);
+	    }
+	}
     //This is the GUI for the Chat (missing inpud from the other user)
     public void chatDisplay() {
         JButton back = new JButton("Back");
@@ -187,8 +241,7 @@ class ChatUI {
         public void actionPerformed(ActionEvent event) {
 
             boolean chatroom = false;
-            Client.chatroom = false;
-			Client.lobbyOpen = true;
+
         }
     }
 
