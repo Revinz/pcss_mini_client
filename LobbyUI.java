@@ -194,10 +194,6 @@ public class LobbyUI extends JPanel{
     		command.add(ChatroomName);
     		Client.objectOutput.writeObject(command);
 			Client.objectOutput.flush();
-			ArrayList<String> RequestJoin = (ArrayList<String>) Client.objectInput.readObject();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,10 +213,11 @@ public class LobbyUI extends JPanel{
     		COnline.add(ChatroomJoinButton); //Add the button to the chatrooms online frame
     		//Create a listener for the button
     		ChatroomJoinButton.addActionListener(new ActionListener() {
+    			int roomID = i;
     			@Override
     			public void actionPerformed(ActionEvent arg0) {
-    				joinChatroom(ChatroomNames.get(i));
-    				ChatUI chatroom = new ChatUI(ChatroomNames.get(i));
+    				joinChatroom(ChatroomNames.get(roomID));
+    				ChatUI chatroom = new ChatUI(ChatroomNames.get(roomID));
     			}          
     	    });
     	}
