@@ -34,14 +34,14 @@ public class Client {
 		{
 			LoginUI login = new LoginUI();
 		}
-		else if(lobbyOpen)
+		/*else if(lobbyOpen)
 		{
 			LobbyUI Lobby = new LobbyUI();
 		}
 		else
 		{
 			ChatUI chatroom = new ChatUI(LobbyUI.newChatroomName);
-		}
+		}*/
 		
     	new Thread(() -> { //thread to recieve information from server
 
