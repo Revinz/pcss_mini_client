@@ -40,45 +40,50 @@ class ChatUI {
     	roomName = chatroomName;
 		// TODO Auto-generated constructor stub
     	chatDisplay();
+    	
+    	Client.state = Client.State.chatroom;
     	new Thread(() -> { //thread to recieve information from server
 
 	        while (true){
-	        	           
-                //Get the input from the client
-                ArrayList<String> Input = null;
-                System.out.println("Chatroom reading from server");
-                Input = Client.ReadServer();	
+	        	
+	        	if (Client.state == Client.State.chatroom) {
+	        		//Get the input from the client
+	                ArrayList<String> Input = null;
+	                System.out.println("Chatroom reading from server");
+	                Input = Client.ReadServer();	
 
-                //If null skip checking for stuff
-                if (Input == null)
-                    continue;
-                
-                if (Input.get(0).equals("NEW MESSAGE")) {
-             	
-	 					try {
-							getMessages(Input);
-						} catch (ClassNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} //runs the method for printing the new message
-	 					
-	 					//Input = null; //empty input after message is recieved
+	                //If null skip checking for stuff
+	                if (Input == null)
+	                    continue;
 	                
-                	} 
-                
-                	//getOnlineUsers(); //add to UI of chatroom
-                	
-                	try {
-    					Thread.sleep(50);
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
-}
+	                if (Input.get(0).equals("NEW MESSAGE")) {
+	             	
+		 					try {
+								getMessages(Input);
+							} catch (ClassNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} //runs the method for printing the new message
+		 					
+		 					//Input = null; //empty input after message is recieved
+		                
+	                	} 
+	                
+	                	//getOnlineUsers(); //add to UI of chatroom
+	                	
+	                	try {
+	    					Thread.sleep(50);
+	    				} catch (InterruptedException e) {
+	    					// TODO Auto-generated catch block
+	    					e.printStackTrace();
+	    				}
+	        		}
 
+	        	}
+                
 		}).start();
        
 	}

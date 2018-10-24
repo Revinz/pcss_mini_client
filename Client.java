@@ -25,10 +25,16 @@ public class Client {
 	public static ObjectOutputStream objectOutput;
 	public static Socket socket;
 	static Scanner scan = new Scanner(System.in);
-	static boolean chatroom;
-	static boolean loggedIn;
 	static ArrayList<String> Input = null;
-	private final static Lock lock = new ReentrantLock();
+	public final static Lock lock = new ReentrantLock();
+	
+	enum State {
+		chatroom,
+		login,
+		lobby
+	}
+	
+	public static State state = null;
 	
 	public static ArrayList<String> ReadServer() {
 
@@ -57,11 +63,10 @@ public class Client {
 		
 	}//end of main
 	
-	public static void InterpretResponse() {
+	public static void InterpretResponse(ArrayList<String> _Input) {
 		
 		
-		
-		
+				
 	}
 
 	

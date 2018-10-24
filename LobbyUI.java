@@ -72,15 +72,22 @@ public class LobbyUI extends JPanel{
         frame.setVisible(true);
         System.out.println("View created");
         
+        Client.state = Client.State.lobby;
         
 		//Run the client requesting on another thread.
 		new Thread(() -> {
 
 	        while (true){
-	        	PeopleOnline();
-	        	chatOnline();
-	        	frame.revalidate();
-	        	frame.repaint();
+	        	
+	        	if (Client.state == Client.State.lobby) {
+		        	System.out.println("Lobby reading from server");
+		        	PeopleOnline();
+		        	System.out.println("Lobby reading from server");
+		        	chatOnline();
+		        	frame.revalidate();
+		        	frame.repaint();
+	        	}
+	        	
 	        	try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {

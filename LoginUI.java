@@ -102,11 +102,13 @@ class LoginUI {
     // This register if the username and/or IP works or not
     class enterServerButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+        	Client.state = Client.State.login;
             username = usernameChooser.getText();
             password = passwordChooser.getText();
             if ((password.length() < 1) || (username.length() < 1)) {
                 System.out.println("Enter a valid username or a IP-address");
             } else {
+                   	
             	Client.hostName = password;
             	try {
             		Client.socket = new Socket(Client.hostName, Client.port);
@@ -119,7 +121,7 @@ class LoginUI {
         			LobbyUI Lobby = new LobbyUI();
             		}
             		catch (UnknownHostException e) {
-                        System.err.println("Don't know about host: taranis");
+                        System.err.println("Don't know about host: " + Client.hostName);
                     } catch (IOException e) {
                         System.err.println("Couldn't get I/O for the connection to:" + Client.hostName);
                     }
