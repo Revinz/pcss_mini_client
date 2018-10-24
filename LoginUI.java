@@ -96,7 +96,7 @@ class LoginUI {
 
 
 
-    String  username;
+    static String  username;
     String  password; // This is the IP-adress
 
     // This register if the username and/or IP works or not

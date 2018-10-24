@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 class ChatUI {
 
     boolean chatroom = true;
+    String roomName;
     String  username;
     String      appName     = "Login you piece of shit";
     ChatUI     mainGUI;
@@ -36,6 +37,7 @@ class ChatUI {
 
 
     public ChatUI(String chatroomName) {
+    	roomName = chatroomName;
 		// TODO Auto-generated constructor stub
     	chatDisplay();
     	new Thread(() -> { //thread to recieve information from server
@@ -59,10 +61,42 @@ class ChatUI {
     
     public ArrayList<String> getMessages() {
    	try {
-   		ArrayList<String> command = new ArrayList<String>();
-   		command.add("GET MESSAGES");
-   		Client.objectOutput.writeObject(command);
-   		Client.objectOutput.flush();
+   		/*           
+
+                //Get the input from the client
+                ArrayList<String> Input = null;
+
+                try {
+                    Input = (ArrayList<String>) objectInputStream.readObject();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                    continue;
+                }
+
+                //If null skip checking for stuff
+                if (Input == null)
+                    continue;
+
+                if (Input.get(0).equals("NEW MESSAGE")) {
+                	
+	 
+               
+
+	                    
+	                    for (ChatRoom i : Server.Chatrooms) {
+	                        if (i.RoomName.equals(ChatRoomName)) ;
+	                        {
+	                            for (ClientInfo Client : i.ClientsConnected) {
+	                                Client.objectOutputStream.writeObject(NewMessage);
+	                            }
+	                            i.Messages.add( new Message(Input.get(1), Input.get(2)));
+	                        }
+	                    }
+                	} catch (Exception e) {
+                		
+                	}
+}*/
+   		
    		ArrayList<String> recievedMessages = (ArrayList<String>) Client.objectInput.readObject();
    		return recievedMessages;
    	} catch (ClassNotFoundException e) {
@@ -80,11 +114,12 @@ class ChatUI {
     {
     	try {
     		ArrayList<String> command = new ArrayList<String>();
-    		command.add("SENDING MESSAGE");
+    		command.add("SEND MESSAGE");
+    		command.add(LoginUI.username);
+    		command.add(messageBox.getText());
+    		command.add(roomName);
     		Client.objectOutput.writeObject(command);
     		Client.objectOutput.flush();
-    		
-			Client.objectOutput.writeObject(sendMessage); //is this a String that can be sent? (sendMessage)
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,7 +133,7 @@ class ChatUI {
     public ArrayList<String> getOnlineUsers() {
     	try {
     		ArrayList<String> command = new ArrayList<String>();
-    		command.add("GET ONLINE USERS");
+    		command.add("GET CHATROOM USERS");
     		Client.objectOutput.writeObject(command);
     		Client.objectOutput.flush();
     		ArrayList<String> onlineUsers = (ArrayList<String>) Client.objectInput.readObject();
@@ -195,9 +230,8 @@ class ChatUI {
                 chatBox.setText("Cleared all messages\n");
                 messageBox.setText("");
             } else {
-                chatBox.append("<" + username + ">:\n " +"     "+ messageBox.getText()
-                        + "\n");
-                messageBox.setText("");
+
+            	sendMessage();
             }
             messageBox.requestFocusInWindow();
         }
