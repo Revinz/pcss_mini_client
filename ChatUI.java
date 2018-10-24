@@ -93,7 +93,7 @@ public class ChatUI {
 
 
         //Lest of of users as a string array
-        String [] TestNames = {"Jonas","Peter","Timy","Starling"};
+        String [] TestNames = {"Jonas","Peter","Timy","Starling"}; // Needs to be svobt with an array from the server
         JL_ONLINE.setForeground(new java.awt.Color(0,0,0));
         JL_ONLINE.setListData(TestNames);
 
