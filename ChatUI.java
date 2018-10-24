@@ -33,7 +33,6 @@ class ChatUI {
     JTextField  messageBox;
     JTextArea   chatBox;
     List<String> onlineUsers = new ArrayList<String>();
-    List<String> recievedMessages = new ArrayList<String>();
 
 
     public ChatUI(String chatroomName) {
@@ -90,12 +89,7 @@ class ChatUI {
     	// TODO Get chatroom log
     
     public ArrayList<String> getMessages(ArrayList<String> Incoming) throws ClassNotFoundException, IOException {
-   	for( int i = 0; i < Incoming.size(); i++)
-	 {
-			 recievedMessages.add(Incoming.get(i));
-	 }
-	 
-	 chatBox.append(recievedMessages.get(1)+ " says: " + recievedMessages.get(2));
+	 chatBox.append(Incoming.get(1)+ " says: " + Incoming.get(2) +"\n");
    	return null;
    }
     
