@@ -5,7 +5,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
@@ -24,7 +27,29 @@ public class Client {
 	static Scanner scan = new Scanner(System.in);
 	static boolean chatroom;
 	static boolean loggedIn;
+	static ArrayList<String> Input = null;
+	private final static Lock lock = new ReentrantLock();
 	
+	public static ArrayList<String> ReadServer() {
+
+		synchronized (lock) {
+			try {
+				ArrayList<String> _input = (ArrayList<String>) Client.objectInput.readObject();
+				System.out.println("Command: " + _input);
+				return Input = _input;
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.print("Nothing returned");
+			return null;
+		}
+		
+		
+	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

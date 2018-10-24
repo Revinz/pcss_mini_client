@@ -157,11 +157,8 @@ public class LobbyUI extends JPanel{
     		command.add("GET ONLINE USERS");
     		Client.objectOutput.writeObject(command);
 			Client.objectOutput.flush();
-			ArrayList<String> RequestOnlineUsers = (ArrayList<String>) Client.objectInput.readObject();
+			ArrayList<String> RequestOnlineUsers = Client.ReadServer();
 			return RequestOnlineUsers;
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -175,11 +172,8 @@ public class LobbyUI extends JPanel{
     		command.add("GET CHATROOMS");
     		Client.objectOutput.writeObject(command);
 			Client.objectOutput.flush();
-    		ArrayList<String> RequestChat = (ArrayList<String>) Client.objectInput.readObject();
+    		ArrayList<String> RequestChat = Client.ReadServer();
 			return RequestChat;
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

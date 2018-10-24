@@ -44,21 +44,15 @@ class ChatUI {
 
 	        while (true){
 	        	           
-
                 //Get the input from the client
                 ArrayList<String> Input = null;
 
-                try {
-                    Input = (ArrayList<String>) Client.objectInput.readObject();
-                } catch (ClassNotFoundException | IOException e) {
-                    e.printStackTrace();
-                    continue;
-                }
+                Input = Client.ReadServer();
 
                 //If null skip checking for stuff
                 if (Input == null)
                     continue;
-
+                
                 if (Input.get(0).equals("NEW MESSAGE")) {
 
                 	
@@ -129,7 +123,7 @@ class ChatUI {
     		command.add(roomName);
     		Client.objectOutput.writeObject(command);
     		Client.objectOutput.flush();
-    		ArrayList<String> onlineUsers = (ArrayList<String>) Client.objectInput.readObject();
+    		ArrayList<String> onlineUsers = Client.ReadServer();
     		//type list of users into window:
     		/*for(int i = 0; i < onlineUsers.size(); i++)
     		  {
@@ -137,9 +131,6 @@ class ChatUI {
     		  }
     		  */
     		 
-    	} catch (ClassNotFoundException e) {
-    		// TODO Auto-generated catch block
-    		e.printStackTrace();
     	} catch (IOException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
