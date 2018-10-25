@@ -28,7 +28,6 @@ public class Client {
 	static ArrayList<String> Input = null;
 	public final static Lock lock = new ReentrantLock();
 	public static LobbyUI lobby = null;
-	public static boolean notLoggedIn = true;
 	
 	enum State {
 		chatroom,
@@ -61,43 +60,45 @@ public class Client {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		if(notLoggedIn)
-		{
+		
 		LoginUI login = new LoginUI();
 		
 		new Thread(() -> {
 
 	        while (true){
 	        	
+	        	ArrayList<String> Input = null;
+                System.out.println("Chatroom reading from server");
+                Input = Client.ReadServer();
 	        	
+                if (Input == null)
+                {
+                    continue;
+                }
 	        	
-	        	try {
-	        		if (Client.state == Client.State.lobby) {
-			        	System.out.println("Lobby reading from server");
+                else if (Input.get(0).equals("ONLINE USERS")) {
+			        	System.out.println("server sending online user list");
 			        	LobbyUI.PeopleOnline();
-			        	System.out.println("Lobby reading from server");
-			        	LobbyUI.chatOnline();
+			        	lobby.frame.revalidate();
+			        	lobby.frame.repaint();
+	        		}
+                else if (Input.get(0).equals("UPDATE CHATROOMS")) {
+			        	System.out.println("server sending chatroom list");
+			        	LobbyUI.chatOnline(Input);
 			        	lobby.frame.revalidate();
 			        	lobby.frame.repaint();
 		        	}
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					
 	        	
 	        	
-	        	if (Client.state == Client.State.chatroom) {
+	        	
 	        		//Get the input from the client
-	                ArrayList<String> Input = null;
-	                System.out.println("Chatroom reading from server");
-	                Input = Client.ReadServer();	
+	                	
 
 	                //If null skip checking for stuff
-	                if (Input == null)
-	                    continue;
 	                
-	                if (Input.get(0).equals("NEW MESSAGE")) {
+	                
+                else if (Input.get(0).equals("NEW MESSAGE")) {
 	             	
 		 					try {
 								ChatUI.getMessages(Input);
@@ -111,7 +112,7 @@ public class Client {
 		 					
 		 					//Input = null; //empty input after message is recieved
 		                
-	                	} 
+	                	}
 	                
 	                	//getOnlineUsers(); //add to UI of chatroom
 	                	
@@ -122,10 +123,10 @@ public class Client {
 	    					e.printStackTrace();
 	    				}
 	        		}
-	        }
+	        
 
 		}).start();
-		}
+		
 	}//end of main
 	
 	public static void InterpretResponse(ArrayList<String> _Input) {

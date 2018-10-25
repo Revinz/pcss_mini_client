@@ -121,7 +121,7 @@ class LoginUI {
         			Client.objectOutput.flush();
         			LobbyUI Lobby = new LobbyUI();
         			preFrame.setVisible(false);
-        			Client.notLoggedIn = false;
+        			
             		}
             		catch (UnknownHostException e) {
                         System.err.println("Don't know about host: " + Client.hostName);

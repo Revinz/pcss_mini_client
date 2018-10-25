@@ -18,19 +18,20 @@ public class LobbyUI extends JPanel{
     private static JPanel POnline = new JPanel();
     private static JPanel COnline = new JPanel();
     private JPanel CreateChatPanel = new JPanel();
+    public static ArrayList<String> chatRoomList = null;
     
 	public LobbyUI() {
 		Client.lobby = this;
 		//Temporary username
 		ArrayList<String> name = new ArrayList<String>();
 		//name.add("TEST USER"); //only for testing
-		try {
+		/*try {
 			Client.objectOutput.writeObject(name);
 			Client.objectOutput.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make the program close when the window is closed
@@ -43,7 +44,7 @@ public class LobbyUI extends JPanel{
         POnline.add(POTitle);
        
         //Get Online people from server
-        PeopleOnline();
+        //PeopleOnline();
         
         System.out.println("Online list created");
         
@@ -57,7 +58,7 @@ public class LobbyUI extends JPanel{
         
         System.out.println("chat online before");
         
-        chatOnline();
+        //chatOnline();
         
         System.out.println("Chat Online");
         
@@ -141,34 +142,12 @@ public class LobbyUI extends JPanel{
     }
     
     public static ArrayList<String> getOnlineUsers() {
-    	try {
-    		ArrayList<String> command = new ArrayList<String>();
-    		command.add("GET ONLINE USERS");
-    		Client.objectOutput.writeObject(command);
-			Client.objectOutput.flush();
-			ArrayList<String> RequestOnlineUsers = Client.ReadServer();
-			return RequestOnlineUsers;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return null;
+    	ArrayList<String> RequestOnlineUsers = Client.ReadServer();
+		RequestOnlineUsers.remove(0);
+		return RequestOnlineUsers;
     }
     
-    public static ArrayList<String> getChatrooms() {
-    	try {
-    		ArrayList<String> command = new ArrayList<String>();
-    		command.add("GET CHATROOMS");
-    		Client.objectOutput.writeObject(command);
-			Client.objectOutput.flush();
-    		ArrayList<String> RequestChat = Client.ReadServer();
-			return RequestChat;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return null;
-    }
+    
     
     public static void joinChatroom(String ChatroomName) {
     	try {
@@ -185,9 +164,10 @@ public class LobbyUI extends JPanel{
    
     static int i = 0;
     static ArrayList<String> ChatroomNames = null;
-    public static void chatOnline() {
+    public static void chatOnline(ArrayList<String> In) {
     	//Get array of the chat rooms from the server
-    	ChatroomNames = getChatrooms();
+    	In.remove(0);
+    	ChatroomNames = In;
     	COnline.removeAll();
     	for (i=0; i<ChatroomNames.size();i++) {
     		JLabel ChatName = new JLabel(ChatroomNames.get(i));
