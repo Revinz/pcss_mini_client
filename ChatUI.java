@@ -257,6 +257,7 @@ class ChatUI {
         	Client.state = Client.state.lobby;
         	leaveRoom();
             boolean chatroom = false;
+            Client.lobby.frame.setVisible(true);
             newFrame.dispose();
 
         }

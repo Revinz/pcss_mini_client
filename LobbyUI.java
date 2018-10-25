@@ -14,13 +14,13 @@ public class LobbyUI extends JPanel{
 //	private BufferedReader in;
 //    private PrintWriter out;
 	//Setup of the program window
-    private JFrame frame = new JFrame("Chat Frame"); 
+    public JFrame frame = new JFrame("Chat Frame"); 
     private JPanel POnline = new JPanel();
     private JPanel COnline = new JPanel();
     private JPanel CreateChatPanel = new JPanel();
     
 	public LobbyUI() {
-		
+		Client.lobby = this;
 		//Temporary username
 		ArrayList<String> name = new ArrayList<String>();
 		name.add("TEST USER");
@@ -80,7 +80,6 @@ public class LobbyUI extends JPanel{
 	        while (true){
 	        	
 	        	if (Client.state == Client.State.lobby) {
-	        		frame.setVisible(true);
 		        	System.out.println("Lobby reading from server");
 		        	PeopleOnline();
 		        	System.out.println("Lobby reading from server");
