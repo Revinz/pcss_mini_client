@@ -121,8 +121,6 @@ class ChatUI {
 	
     //This is the GUI for the Chat (missing inpud from the other user)
     public void chatDisplay() {
-    	
-    	
     	JButton back = new JButton("Back");
         back.addActionListener(new backButtonListener()); //This is the back butten from chatroom to lobby
 
@@ -177,7 +175,6 @@ class ChatUI {
         //Lest of of users as a string array
         JL_ONLINE.setForeground(new java.awt.Color(0,0,0));
         JL_ONLINE.setListData(ChatRoomNames);
-       
 
         //The visibal lest of users
         SP_ONLINE.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
