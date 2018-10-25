@@ -94,7 +94,9 @@ class ChatUI {
     		
     		System.out.println("Username: " + onlineUsers.get(j));
     		
-    	}             
+    	}  
+    	
+    	JL_ONLINE.setListData(ChatRoomNames);
     	
     }
     
