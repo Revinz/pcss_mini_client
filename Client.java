@@ -68,7 +68,14 @@ public class Client {
                 
                 
                 
-                
+                if(Client.state == Client.State.lobby)
+                {
+                	LobbyUI.PeopleOnline();
+                	LobbyUI.chatOnline();
+
+	        		
+                }
+	        		else if (Client.state == Client.State.chatroom) {
 		        		//Get the input from the client
 	        			System.out.println("Client reading from server");
 	                    Input = Client.ReadServer();
@@ -92,29 +99,11 @@ public class Client {
 			 					//Input = null; //empty input after message is recieved
 			                
 		                	} 
-		                else if(Input.get(0).equals("CHATROOMS"))
-		                {
-		                	System.out.println("WE GOT CHATROOMS BOSS");
-		                	Input.remove(0);
-		            		LobbyUI.chatOnline(Input);
-		            		LobbyUI.frame.revalidate();
-		                	LobbyUI.frame.repaint();
-		                }
-		                else if(Input.get(0).equals("ONLINE USERS"))
-		                {
-		                	System.out.println("WE GOT ONLINE PEOPLE BOSS");
-		                	Input.remove(0);
-		        			LobbyUI.PeopleOnline(Input);
-		        			LobbyUI.frame.revalidate();
-		                	LobbyUI.frame.repaint();
-		                }	
 		                
-		                
-		                
-		                //getOnlineUsers(); //add to UI of chatroom
+		                	//getOnlineUsers(); //add to UI of chatroom
 		                	
 		                	
-		        		
+		        		}
 	        		
 	        		
 	        	try {
