@@ -85,9 +85,9 @@ public class LobbyUI extends JPanel{
     	
     	ArrayList<String> UserName = getOnlineUsers();
     	POnline.removeAll();
-    	System.out.println("------ Users Online --------");
     	for (int j=0; j<UserName.size();j++) {
     		JLabel Person = new JLabel(UserName.get(j)); //Create a button for each person online
+    		System.out.println("------ Users Online --------");
     		System.out.println("Username: " + UserName.get(j));
     		POnline.add(Person); //Add the Label for the people online frame
     	}             
