@@ -41,6 +41,7 @@ class ChatUI {
     String [] ChatRoomNames = { };
 
     public ChatUI(String chatroomName) {
+    	/*
     	roomName = chatroomName;
 		// TODO Auto-generated constructor stub
     	chatDisplay();
@@ -89,7 +90,7 @@ class ChatUI {
 	        	}
                 
 		}).start();
-       
+     */  
 	}
     	// TODO Get chatroom log
     
@@ -104,7 +105,7 @@ class ChatUI {
     	try {
     		ArrayList<String> command = new ArrayList<String>();
     		command.add("SEND MESSAGE");
-    		command.add(LoginUI.username);
+    		command.add(Client.userName);
     		command.add(messageBox.getText());
     		command.add(roomName);
     		Client.objectOutput.writeObject(command);
@@ -122,6 +123,7 @@ class ChatUI {
     		ArrayList<String> command = new ArrayList<String>();
     		command.add("LEAVE CHATROOM");
     		command.add(roomName);
+    		System.out.println("You're leaving a chatroom with name: " +roomName);
     		Client.objectOutput.writeObject(command);
     		Client.objectOutput.flush();
 		} catch (IOException e) {
@@ -254,11 +256,13 @@ class ChatUI {
     class backButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         	
-        	Client.state = Client.state.lobby;
+        	
         	leaveRoom();
             boolean chatroom = false;
             Client.lobby.frame.setVisible(true);
             newFrame.dispose();
+            Client.state = Client.state.lobby;
+            
 
         }
     }

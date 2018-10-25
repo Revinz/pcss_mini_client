@@ -28,6 +28,7 @@ public class Client {
 	static ArrayList<String> Input = null;
 	public final static Lock lock = new ReentrantLock();
 	public static LobbyUI lobby = null;
+	public static boolean notLoggedIn = true;
 	
 	enum State {
 		chatroom,
@@ -60,8 +61,34 @@ public class Client {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		if(notLoggedIn)
+		{
 		LoginUI login = new LoginUI();
 		
+		new Thread(() -> {
+
+	        while (true){
+	        	
+	        	
+	        	
+	        	try {
+	        		if (Client.state == Client.State.lobby) {
+			        	System.out.println("Lobby reading from server");
+			        	LobbyUI.PeopleOnline();
+			        	System.out.println("Lobby reading from server");
+			        	LobbyUI.chatOnline();
+			        	lobby.frame.revalidate();
+			        	lobby.frame.repaint();
+		        	}
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+
+		}).start();
+		}
 	}//end of main
 	
 	public static void InterpretResponse(ArrayList<String> _Input) {

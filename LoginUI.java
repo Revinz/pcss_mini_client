@@ -116,10 +116,12 @@ class LoginUI {
             		Client.objectOutput = new ObjectOutputStream(Client.socket.getOutputStream());
             		ArrayList<String> command = new ArrayList<String>();
             		command.add(username);
+            		Client.userName = username;
             		Client.objectOutput.writeObject(command);
         			Client.objectOutput.flush();
         			LobbyUI Lobby = new LobbyUI();
         			preFrame.setVisible(false);
+        			Client.notLoggedIn = false;
             		}
             		catch (UnknownHostException e) {
                         System.err.println("Don't know about host: " + Client.hostName);
