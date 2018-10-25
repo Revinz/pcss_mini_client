@@ -19,7 +19,7 @@ public class ChatUI {
 
     JScrollPane SP_ONLINE = new JScrollPane();
 
-
+    int    i = 0;
 
 
     public static void main(String[] args) {
@@ -40,16 +40,16 @@ public class ChatUI {
   /*  public ChatUI(String chatroomName) {
         // TODO Auto-generated constructor stub
 
-        // TODO Get chatroom log
+        // TODO Get chatroom log x
 
-        // TODO Add messages to the chat
+        // TODO Add messages to the chat x
 
-        // TODO Get chatroom users
+        // TODO Get chatroom users x
 
-        // TODO Show chatroom users in list
+        // TODO Show chatroom users in list X
     }
 */
-    //This is the GUI for the Chat (missing inpud from the other user)
+    //This is the GUI for the Chat
     public void chatUI() {
         JButton back = new JButton("Back");
         back.addActionListener(new backButtonListener()); //This is the back butten from chatroom to lobby
@@ -125,7 +125,12 @@ public class ChatUI {
 
 
         // this is the print of the log. Need to have a string
-        chatBox.append("Chat Log");
+        if (i == 0) {
+            chatBox.append("");
+            i= i+1;
+        }
+
+        // the other users messages
 
 
 
@@ -145,6 +150,9 @@ public class ChatUI {
             } else {
                 chatBox.append("<" + username + ">:\n " +"     "+ messageBox.getText()
                         + "\n");
+                //Send the message to the chat log
+
+
                 messageBox.setText("");
             }
             messageBox.requestFocusInWindow();
