@@ -81,10 +81,10 @@ public class LobbyUI extends JPanel{
 	}
 	
     
-    public static void PeopleOnline() {
+    public static void PeopleOnline(ArrayList<String> In) {
     	//Get array of the usernames from the server
-    	
-    	ArrayList<String> UserName = getOnlineUsers();
+    	In.remove(0);
+    	ArrayList<String> UserName = In;
     	POnline.removeAll();
     	System.out.println("------ Users Online --------");
     	for (int j=0; j<UserName.size();j++) {

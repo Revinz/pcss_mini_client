@@ -81,7 +81,7 @@ public class Client {
 	        	
                 else if (Input.get(0).equals("ONLINE USERS")) {
 			        	System.out.println("server sending online user list");
-			        	LobbyUI.PeopleOnline();
+			        	LobbyUI.PeopleOnline(Input);
 			        	lobby.frame.revalidate();
 			        	lobby.frame.repaint();
 	        		}
@@ -120,7 +120,7 @@ public class Client {
 	                	//getOnlineUsers(); //add to UI of chatroom
 	                	
 	                	try {
-	    					Thread.sleep(50);
+	    					Thread.sleep(20);
 	    				} catch (InterruptedException e) {
 	    					// TODO Auto-generated catch block
 	    					e.printStackTrace();
