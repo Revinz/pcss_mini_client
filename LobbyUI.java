@@ -80,6 +80,7 @@ public class LobbyUI extends JPanel{
 	        while (true){
 	        	
 	        	if (Client.state == Client.State.lobby) {
+	        		frame.setVisible(true);
 		        	System.out.println("Lobby reading from server");
 		        	PeopleOnline();
 		        	System.out.println("Lobby reading from server");
@@ -125,6 +126,7 @@ public class LobbyUI extends JPanel{
 				if (CreateChatroomMethod(CreateChatroomTextField.getText())) {
 						
 					ChatUI chatroom = new ChatUI(CreateChatroomTextField.getText());
+					frame.setVisible(false);
 				
 				}
 			}          
@@ -219,6 +221,7 @@ public class LobbyUI extends JPanel{
     			public void actionPerformed(ActionEvent arg0) {
     				joinChatroom(ChatroomNames.get(roomID));
     				ChatUI chatroom = new ChatUI(ChatroomNames.get(roomID));
+    				frame.setVisible(false);
     			}          
     	    });
     	}

@@ -119,6 +119,7 @@ class LoginUI {
             		Client.objectOutput.writeObject(command);
         			Client.objectOutput.flush();
         			LobbyUI Lobby = new LobbyUI();
+        			preFrame.setVisible(false);
             		}
             		catch (UnknownHostException e) {
                         System.err.println("Don't know about host: " + Client.hostName);

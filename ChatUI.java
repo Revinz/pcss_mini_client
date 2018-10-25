@@ -246,6 +246,8 @@ class ChatUI {
     //This is the back butten from chatroom to lobby
     class backButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+        	
+        	Client.state = Client.state.lobby;
 
             boolean chatroom = false;
 
