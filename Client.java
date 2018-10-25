@@ -27,6 +27,7 @@ public class Client {
 	static Scanner scan = new Scanner(System.in);
 	static ArrayList<String> Input = null;
 	public final static Lock lock = new ReentrantLock();
+	public static LobbyUI lobby = null;
 	
 	enum State {
 		chatroom,
