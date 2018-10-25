@@ -101,6 +101,10 @@ class ChatUI {
     		Client.objectOutput.writeObject(command);
     		Client.objectOutput.flush();
     		ArrayList<String> onlineUsers = Client.ReadServer();
+    		boolean chatroom = false;
+            Client.lobby.frame.setVisible(true);
+            Client.state = Client.state.lobby;
+            newFrame.dispose();
     		//type list of users into window:
     		/*for(int i = 0; i < onlineUsers.size(); i++)
     		  {
@@ -216,10 +220,8 @@ class ChatUI {
         	
         	
         	leaveRoom();
-            boolean chatroom = false;
-            Client.lobby.frame.setVisible(true);
-            newFrame.dispose();
-            Client.state = Client.state.lobby;
+            
+            
             
 
         }
