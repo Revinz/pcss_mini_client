@@ -116,6 +116,20 @@ class ChatUI {
     	
     }
     
+    public void leaveRoom() //activate on send message
+    {
+    	try {
+    		ArrayList<String> command = new ArrayList<String>();
+    		command.add("LEAVE CHATROOM");
+    		command.add(roomName);
+    		Client.objectOutput.writeObject(command);
+    		Client.objectOutput.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    }
    
     
     	// TODO Get chatroom users
@@ -144,14 +158,7 @@ class ChatUI {
 	
 	// TODO Show chatroom users in list
 	
-	public void printOnlineUsers()
-	{
-	 for(int i = 0; i < onlineUsers.size(); i++)
-	    {
-		 //window for usernames needed?
-	    	//print in window: onlineUsers.get(i);
-	    }
-	}
+	
     //This is the GUI for the Chat (missing inpud from the other user)
     public void chatDisplay() {
     	JButton back = new JButton("Back");
@@ -248,8 +255,9 @@ class ChatUI {
         public void actionPerformed(ActionEvent event) {
         	
         	Client.state = Client.state.lobby;
-
+        	leaveRoom();
             boolean chatroom = false;
+            newFrame.dispose();
 
         }
     }
