@@ -96,6 +96,10 @@ class ChatUI {
     		Client.objectOutput.writeObject(command);
     		Client.objectOutput.flush();
     		ArrayList<String> onlineUsers = Client.ReadServer();
+    		boolean chatroom = false;
+            Client.lobby.frame.setVisible(true);
+            Client.state = Client.state.lobby;
+            newFrame.dispose();
     		//type list of users into window:
     		/*for(int i = 0; i < onlineUsers.size(); i++)
     		  {
@@ -196,11 +200,9 @@ class ChatUI {
     class backButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         	
-        	Client.state = Client.state.lobby;
-            boolean chatroom = false;
-            Client.lobby.frame.setVisible(true);
-            leaveRoom();
-            newFrame.dispose();
+        	
+        	leaveRoom();
+            
             
             
 
