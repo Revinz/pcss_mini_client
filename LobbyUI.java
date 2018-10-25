@@ -79,11 +79,21 @@ public class LobbyUI extends JPanel{
        
 	}
 	
-    
-    public static void PeopleOnline(ArrayList<String> Input) {
+	static ArrayList<String> UserName = null;
+    public static void PeopleOnline() {
     	//Get array of the usernames from the server
-    	Input.remove(0);
-    	ArrayList<String> UserName = Input;
+    	
+    	try {
+    		ArrayList<String> command = new ArrayList<String>();
+    		command.add("GET ONLINE USERS");
+    		Client.objectOutput.writeObject(command);
+			Client.objectOutput.flush();		
+			UserName = Client.ReadServer();
+    	}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     	POnline.removeAll();
     	System.out.println("------ Users Online --------");
     	for (int j=0; j<UserName.size();j++) {
@@ -140,33 +150,6 @@ public class LobbyUI extends JPanel{
     	return false;
     }
     
-    public static void getOnlineUsers() {
-    	try {
-    		ArrayList<String> command = new ArrayList<String>();
-    		command.add("GET ONLINE USERS");
-    		Client.objectOutput.writeObject(command);
-			Client.objectOutput.flush();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    }
-    
-    public static void getChatrooms() {
-    	try {
-    		ArrayList<String> command = new ArrayList<String>();
-    		command.add("GET CHATROOMS");
-    		Client.objectOutput.writeObject(command);
-			Client.objectOutput.flush();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    }
     
     public static void joinChatroom(String ChatroomName) {
     	try {
@@ -185,10 +168,18 @@ public class LobbyUI extends JPanel{
    
     static int i = 0;
     static ArrayList<String> ChatroomNames = null;
-    public static void chatOnline(ArrayList<String>Input) {
+    public static void chatOnline() {
     	//Get array of the chat rooms from the server
-    	Input.remove(0);
-    	ChatroomNames = Input;
+    	ArrayList<String> command = new ArrayList<String>();
+		command.add("GET CHATROOMS");
+		try {
+			Client.objectOutput.writeObject(command);
+			Client.objectOutput.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList<String> ChatroomNames = Client.ReadServer();
     	COnline.removeAll();
     	for (i=0; i<ChatroomNames.size();i++) {
     		JLabel ChatName = new JLabel(ChatroomNames.get(i));

@@ -65,32 +65,35 @@ public class Client {
 		
 	        while (true){
 	        	ArrayList<String> Input = null;
-                System.out.println("Client reading from server");
-                Input = Client.ReadServer();
+                
                 
                 
                 if(Client.state == Client.State.lobby)
                 {
-                	LobbyUI.getOnlineUsers();
-                	LobbyUI.getChatrooms();
-	        		if (Input.get(0) == "ONLINE USERS") {
+                	LobbyUI.PeopleOnline();
+                	  Input = Client.ReadServer();
+
+	        		if (Input.get(0).equals("ONLINE USERS")) {
 	        			
 			        	System.out.println("Lobby reading from server");
-			        	LobbyUI.PeopleOnline(Input);
 			        	LobbyUI.frame.revalidate();
 			        	LobbyUI.frame.repaint();
 	        		}
-	        		else if(Input.get(0) == "CHATROOMS")
+	        		
+	        		LobbyUI.chatOnline();
+	        		Input = Client.ReadServer();
+	        		if(Input.get(0).equals("CHATROOMS"))
 	        		{
 			        	System.out.println("Lobby reading from server");
-			        	LobbyUI.chatOnline(Input);
+			        	
 			        	LobbyUI.frame.revalidate();
 			        	LobbyUI.frame.repaint();
 		        	}
                 }
 	        		else if (Client.state == Client.State.chatroom) {
 		        		//Get the input from the client
-		                	
+	        			System.out.println("Client reading from server");
+	                    Input = Client.ReadServer();
 
 		                //If null skip checking for stuff
 		                if (Input == null)
@@ -119,6 +122,7 @@ public class Client {
 	        		
 	        		
 	        	try {
+	        		
 					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
