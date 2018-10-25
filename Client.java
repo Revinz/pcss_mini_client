@@ -71,24 +71,9 @@ public class Client {
                 if(Client.state == Client.State.lobby)
                 {
                 	LobbyUI.PeopleOnline();
-                	  Input = Client.ReadServer();
+                	LobbyUI.chatOnline();
 
-	        		if (Input.get(0).equals("ONLINE USERS")) {
-	        			
-			        	System.out.println("Lobby reading from server");
-			        	LobbyUI.frame.revalidate();
-			        	LobbyUI.frame.repaint();
-	        		}
 	        		
-	        		LobbyUI.chatOnline();
-	        		Input = Client.ReadServer();
-	        		if(Input.get(0).equals("CHATROOMS"))
-	        		{
-			        	System.out.println("Lobby reading from server");
-			        	
-			        	LobbyUI.frame.revalidate();
-			        	LobbyUI.frame.repaint();
-		        	}
                 }
 	        		else if (Client.state == Client.State.chatroom) {
 		        		//Get the input from the client
