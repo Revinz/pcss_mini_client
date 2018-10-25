@@ -91,7 +91,11 @@ public class Client {
 			        	lobby.frame.revalidate();
 			        	lobby.frame.repaint();
 		        	}
-					
+                else if (Input.get(0).equals("CHATROOM USERS")) {
+		        	System.out.println("server sending chatroom user list");
+		        	ChatUI.updateUserlist(Input);
+		        	
+	        	}
 	        	
 	        	
 	        	

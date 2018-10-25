@@ -18,7 +18,7 @@ public class LobbyUI extends JPanel{
     private static JPanel POnline = new JPanel();
     private static JPanel COnline = new JPanel();
     private JPanel CreateChatPanel = new JPanel();
-    public static ArrayList<String> chatRoomList = null;
+    //public static ArrayList<String> chatRoomList = null;
     
 	public LobbyUI() {
 		Client.lobby = this;

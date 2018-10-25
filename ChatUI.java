@@ -34,11 +34,11 @@ class ChatUI {
     JButton     sendMessage;
     JTextField  messageBox;
     static JTextArea   chatBox;
-    List<String> onlineUsers = new ArrayList<String>();
+    static List<String> onlineUsers = new ArrayList<String>();
     JScrollPane SP_ONLINE = new JScrollPane();
-    public static JList JL_ONLINE = new JList();
+    public static JList JL_ONLINE = new JList(); // <<<<<<<<<<<<<<<<
     
-    String [] ChatRoomNames = { };
+    public static String [] ChatRoomNames = { };
 
     public ChatUI(String chatroomName) {
     	
@@ -75,6 +75,29 @@ class ChatUI {
     	
     }
     
+    public static void updateUserlist(ArrayList<String> In) {
+    	//Get array of the usernames from the server
+    	System.out.println("WE RECIEVED A LIST");
+    	In.remove(0);
+    	for(int i = 0; i< onlineUsers.size(); i++)
+    	{
+    		onlineUsers.remove(i);
+    	}
+    	
+    	onlineUsers = In;
+    	
+    	ChatRoomNames = new String[onlineUsers.size()];
+    	System.out.println("------ Chatroom Users --------");
+    	for (int j=0; j<onlineUsers.size();j++) {
+    		ChatRoomNames[j] = onlineUsers.get(j);
+    		
+    		
+    		System.out.println("Username: " + onlineUsers.get(j));
+    		
+    	}             
+    	
+    }
+    
     public void leaveRoom() //activate on send message
     {
     	try {
@@ -93,27 +116,7 @@ class ChatUI {
    
     
     	// TODO Get chatroom users
-    public ArrayList<String> getOnlineUsers() {
-    	try {
-    		ArrayList<String> command = new ArrayList<String>();
-    		command.add("GET CHATROOM USERS");
-    		command.add(roomName);
-    		Client.objectOutput.writeObject(command);
-    		Client.objectOutput.flush();
-    		ArrayList<String> onlineUsers = Client.ReadServer();
-    		//type list of users into window:
-    		/*for(int i = 0; i < onlineUsers.size(); i++)
-    		  {
-    		  		print into window: onlineUsers.get(i);														<<<<<<<HERE IS SOMETHING FOR JONAS>>>>>>>>>>>>>
-    		  }
-    		  */
-    		 
-    	} catch (IOException e) {
-    		// TODO Auto-generated catch block
-    		e.printStackTrace();
-    	}
-    	return null;
-    }
+    
 	
 	
 	// TODO Show chatroom users in list
@@ -172,7 +175,7 @@ class ChatUI {
         playerPanel.add(back, right);
 
 
-        //Lest of of users as a string array
+        //List of users as a string array
         JL_ONLINE.setForeground(new java.awt.Color(0,0,0));
         JL_ONLINE.setListData(ChatRoomNames);
 
