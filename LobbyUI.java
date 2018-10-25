@@ -24,13 +24,13 @@ public class LobbyUI extends JPanel{
 		//Temporary username
 		ArrayList<String> name = new ArrayList<String>();
 		//name.add("TEST USER"); //only for testing
-		/*try {
+		try {
 			Client.objectOutput.writeObject(name);
 			Client.objectOutput.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		
 		
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make the program close when the window is closed
@@ -43,7 +43,7 @@ public class LobbyUI extends JPanel{
         POnline.add(POTitle);
        
         //Get Online people from server
-        //PeopleOnline();
+        PeopleOnline();
         
         System.out.println("Online list created");
         
@@ -57,7 +57,7 @@ public class LobbyUI extends JPanel{
         
         System.out.println("chat online before");
         
-        //chatOnline();
+        chatOnline();
         
         System.out.println("Chat Online");
         
@@ -80,10 +80,10 @@ public class LobbyUI extends JPanel{
 	}
 	
     
-    public static void PeopleOnline(ArrayList<String> Input) {
+    public static void PeopleOnline() {
     	//Get array of the usernames from the server
-    	Input.remove(0);
-    	ArrayList<String> UserName = Input;
+    	
+    	ArrayList<String> UserName = getOnlineUsers();
     	POnline.removeAll();
     	System.out.println("------ Users Online --------");
     	for (int j=0; j<UserName.size();j++) {
@@ -140,32 +140,34 @@ public class LobbyUI extends JPanel{
     	return false;
     }
     
-    public static void getOnlineUsers() {
+    public static ArrayList<String> getOnlineUsers() {
     	try {
     		ArrayList<String> command = new ArrayList<String>();
     		command.add("GET ONLINE USERS");
     		Client.objectOutput.writeObject(command);
 			Client.objectOutput.flush();
-			
+			ArrayList<String> RequestOnlineUsers = Client.ReadServer();
+			return RequestOnlineUsers;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
+    	return null;
     }
     
-    public static void getChatrooms() {
+    public static ArrayList<String> getChatrooms() {
     	try {
     		ArrayList<String> command = new ArrayList<String>();
     		command.add("GET CHATROOMS");
     		Client.objectOutput.writeObject(command);
 			Client.objectOutput.flush();
-			
+    		ArrayList<String> RequestChat = Client.ReadServer();
+			return RequestChat;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
+    	return null;
     }
     
     public static void joinChatroom(String ChatroomName) {
@@ -185,10 +187,9 @@ public class LobbyUI extends JPanel{
    
     static int i = 0;
     static ArrayList<String> ChatroomNames = null;
-    public static void chatOnline(ArrayList<String>Input) {
+    public static void chatOnline() {
     	//Get array of the chat rooms from the server
-    	Input.remove(0);
-    	ChatroomNames = Input;
+    	ChatroomNames = getChatrooms();
     	COnline.removeAll();
     	for (i=0; i<ChatroomNames.size();i++) {
     		JLabel ChatName = new JLabel(ChatroomNames.get(i));
@@ -203,6 +204,7 @@ public class LobbyUI extends JPanel{
     				joinChatroom(ChatroomNames.get(roomID));
     				ChatUI chatroom = new ChatUI(ChatroomNames.get(roomID));
     				//frame.setVisible(false);
+    				frame.dispose();
     				Client.lobby = null;
     				
     			}          

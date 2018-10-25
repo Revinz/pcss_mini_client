@@ -77,7 +77,6 @@ class ChatUI {
     		command.add("LEAVE CHATROOM");
     		command.add(roomName);
     		System.out.println("You're leaving a chatroom with name: " +roomName);
-    		Client.state = Client.State.lobby;
     		Client.objectOutput.writeObject(command);
     		Client.objectOutput.flush();
 		} catch (IOException e) {
@@ -197,10 +196,12 @@ class ChatUI {
     class backButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         	
+        	Client.state = Client.state.lobby;
             boolean chatroom = false;
             Client.lobby.frame.setVisible(true);
             leaveRoom();
             newFrame.dispose();
+            
             
 
         }
