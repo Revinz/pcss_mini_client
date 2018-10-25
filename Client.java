@@ -41,9 +41,12 @@ public class Client {
 
 		synchronized (lock) {
 			try {
+				if(objectInput != null)
+				{
 				ArrayList<String> _input = (ArrayList<String>) Client.objectInput.readObject();
 				System.out.println("Command: " + _input);
 				return Input = _input;
+				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
