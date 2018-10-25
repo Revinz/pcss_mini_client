@@ -14,7 +14,7 @@ public class LobbyUI extends JPanel{
 //	private BufferedReader in;
 //    private PrintWriter out;
 	//Setup of the program window
-    public JFrame frame = new JFrame("Chat Frame"); 
+    public static JFrame frame = new JFrame("Chat Frame"); 
     private static JPanel POnline = new JPanel();
     private static JPanel COnline = new JPanel();
     private JPanel CreateChatPanel = new JPanel();
@@ -107,7 +107,7 @@ public class LobbyUI extends JPanel{
 				if (CreateChatroomMethod(CreateChatroomTextField.getText())) {
 						
 					ChatUI chatroom = new ChatUI(CreateChatroomTextField.getText());
-					//frame.setVisible(false);
+					frame.setVisible(false);
     				
 				}
 			}          
@@ -181,7 +181,7 @@ public class LobbyUI extends JPanel{
     			public void actionPerformed(ActionEvent arg0) {
     				joinChatroom(ChatroomNames.get(roomID));
     				ChatUI chatroom = new ChatUI(ChatroomNames.get(roomID));
-    				//frame.setVisible(false);
+    				frame.setVisible(false);
     				
     			}          
     	    });
