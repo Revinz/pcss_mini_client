@@ -14,10 +14,12 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -33,7 +35,10 @@ class ChatUI {
     JTextField  messageBox;
     static JTextArea   chatBox;
     List<String> onlineUsers = new ArrayList<String>();
-
+    JScrollPane SP_ONLINE = new JScrollPane();
+    public static JList JL_ONLINE = new JList();
+    
+    String [] ChatRoomNames = { };
 
     public ChatUI(String chatroomName) {
     	
@@ -117,23 +122,20 @@ class ChatUI {
 	
     //This is the GUI for the Chat (missing inpud from the other user)
     public void chatDisplay() {
-        JButton back = new JButton("Back");
+    	JButton back = new JButton("Back");
         back.addActionListener(new backButtonListener()); //This is the back butten from chatroom to lobby
-
-
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-
-
         JPanel southPanel = new JPanel();
-        southPanel.setBackground(Color.getHSBColor(0, 0, 255));
+        southPanel.setBackground(Color.getHSBColor(25, 55, 10));
         southPanel.setLayout(new GridBagLayout());
 
         JPanel playerPanel = new JPanel();
+        playerPanel.setBackground(Color.getHSBColor(100, 10, 10));
         playerPanel.setLayout(new GridBagLayout());
-        playerPanel.setBackground(Color.getHSBColor(55, 55, 55));
+
 
         messageBox = new JTextField(30);
         messageBox.requestFocusInWindow();
@@ -156,17 +158,33 @@ class ChatUI {
         left.weighty = 1.0D;
 
         GridBagConstraints right = new GridBagConstraints();
-        right.insets = new Insets(0, 10, 0, 0);
-        right.anchor = GridBagConstraints.LINE_END;
+        right.insets = new Insets(0, 0, 0, 0);
+        right.anchor = GridBagConstraints.NORTH;
         right.fill = GridBagConstraints.NONE;
         right.weightx = 1.0D;
         right.weighty = 1.0D;
+
+
 
         southPanel.add(messageBox, left);
         southPanel.add(sendMessage, right);
 
 
         playerPanel.add(back, right);
+
+
+        //Lest of of users as a string array
+        JL_ONLINE.setForeground(new java.awt.Color(0,0,0));
+        JL_ONLINE.setListData(ChatRoomNames);
+
+        //The visibal lest of users
+        SP_ONLINE.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        SP_ONLINE.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        SP_ONLINE.setViewportView(JL_ONLINE);
+        newFrame.getContentPane().add(SP_ONLINE);
+        SP_ONLINE.setBounds(0, 34, 55, 390);
+
+
 
         mainPanel.add(BorderLayout.SOUTH, southPanel);
         mainPanel.add(BorderLayout.WEST, playerPanel);
