@@ -14,7 +14,7 @@ public class LobbyUI extends JPanel{
 //	private BufferedReader in;
 //    private PrintWriter out;
 	//Setup of the program window
-    public JFrame frame = new JFrame("Chat Frame"); 
+    public static JFrame frame = new JFrame("Chat Frame"); 
     private static JPanel POnline = new JPanel();
     private static JPanel COnline = new JPanel();
     private JPanel CreateChatPanel = new JPanel();
@@ -177,6 +177,8 @@ public class LobbyUI extends JPanel{
     		command.add(ChatroomName);
     		Client.objectOutput.writeObject(command);
 			Client.objectOutput.flush();
+			frame.dispose();
+			Client.lobby = null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -202,6 +204,8 @@ public class LobbyUI extends JPanel{
     				joinChatroom(ChatroomNames.get(roomID));
     				ChatUI chatroom = new ChatUI(ChatroomNames.get(roomID));
     				//frame.setVisible(false);
+    				frame.dispose();
+    				Client.lobby = null;
     				
     			}          
     	    });

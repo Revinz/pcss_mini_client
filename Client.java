@@ -77,8 +77,8 @@ public class Client {
 			        	LobbyUI.PeopleOnline();
 			        	System.out.println("Lobby reading from server");
 			        	LobbyUI.chatOnline();
-			        	lobby.frame.revalidate();
-			        	lobby.frame.repaint();
+			        	LobbyUI.frame.revalidate();
+			        	LobbyUI.frame.repaint();
 		        	}
 					Thread.sleep(200);
 				} catch (InterruptedException e) {
