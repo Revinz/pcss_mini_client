@@ -28,7 +28,6 @@ public class Client {
 	static ArrayList<String> Input = null;
 	public final static Lock lock = new ReentrantLock();
 	public static LobbyUI lobby = null;
-	public static boolean notLoggedIn = true;
 	
 	enum State {
 		chatroom,
@@ -61,25 +60,65 @@ public class Client {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		if(notLoggedIn)
-		{
+		
 		LoginUI login = new LoginUI();
 		
-		new Thread(() -> {
-
 	        while (true){
-	        	
-	        	
-	        	
-	        	try {
-	        		if (Client.state == Client.State.lobby) {
+	        	ArrayList<String> Input = null;
+                System.out.println("Client reading from server");
+                Input = Client.ReadServer();
+                
+                
+                if(Client.state == Client.State.lobby)
+                {
+                	LobbyUI.getOnlineUsers();
+                	LobbyUI.getChatrooms();
+	        		if (Input.get(0) == "ONLINE USERS") {
+	        			
 			        	System.out.println("Lobby reading from server");
-			        	LobbyUI.PeopleOnline();
+			        	LobbyUI.PeopleOnline(Input);
+			        	LobbyUI.frame.revalidate();
+			        	LobbyUI.frame.repaint();
+	        		}
+	        		else if(Input.get(0) == "CHATROOMS")
+	        		{
 			        	System.out.println("Lobby reading from server");
-			        	LobbyUI.chatOnline();
+			        	LobbyUI.chatOnline(Input);
 			        	LobbyUI.frame.revalidate();
 			        	LobbyUI.frame.repaint();
 		        	}
+                }
+	        		else if (Client.state == Client.State.chatroom) {
+		        		//Get the input from the client
+		                	
+
+		                //If null skip checking for stuff
+		                if (Input == null)
+		                    continue;
+		                
+		                if (Input.get(0).equals("NEW MESSAGE")) {
+		             	
+			 					try {
+									ChatUI.getMessages(Input);
+								} catch (ClassNotFoundException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} //runs the method for printing the new message
+			 					
+			 					//Input = null; //empty input after message is recieved
+			                
+		                	} 
+		                
+		                	//getOnlineUsers(); //add to UI of chatroom
+		                	
+		                	
+		        		}
+	        		
+	        		
+	        	try {
 					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -87,45 +126,10 @@ public class Client {
 				}
 	        	
 	        	
-	        	if (Client.state == Client.State.chatroom) {
-	        		//Get the input from the client
-	                ArrayList<String> Input = null;
-	                System.out.println("Chatroom reading from server");
-	                Input = Client.ReadServer();	
-
-	                //If null skip checking for stuff
-	                if (Input == null)
-	                    continue;
-	                
-	                if (Input.get(0).equals("NEW MESSAGE")) {
-	             	
-		 					try {
-								ChatUI.getMessages(Input);
-							} catch (ClassNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} //runs the method for printing the new message
-		 					
-		 					//Input = null; //empty input after message is recieved
-		                
-	                	} 
-	                
-	                	//getOnlineUsers(); //add to UI of chatroom
-	                	
-	                	try {
-	    					Thread.sleep(50);
-	    				} catch (InterruptedException e) {
-	    					// TODO Auto-generated catch block
-	    					e.printStackTrace();
-	    				}
-	        		}
+	        	
 	        }
 
-		}).start();
-		}
+		
 	}//end of main
 	
 	public static void InterpretResponse(ArrayList<String> _Input) {
@@ -133,13 +137,5 @@ public class Client {
 		
 				
 	}
-
-	
-	//Communicate with server send / receive messages
-	
-
-	
-
-	
 	
 }
