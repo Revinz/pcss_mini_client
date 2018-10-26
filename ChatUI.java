@@ -28,7 +28,7 @@ class ChatUI {
     boolean chatroom = true;
     String roomName;
     String  username;
-    String      appName     = "Login you piece of shit";
+    String      appName     = "Chatroom";
     ChatUI     mainGUI;
     JFrame      newFrame    = new JFrame(appName);
     JButton     sendMessage;
