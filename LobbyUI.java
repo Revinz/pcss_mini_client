@@ -1,113 +1,88 @@
 import javax.swing.*;
-
-
 import java.awt.*;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LobbyUI extends JPanel{
-//	private BufferedReader in;
-//    private PrintWriter out;
-	//Setup of the program window
-    public static JFrame frame = new JFrame("Chat Frame"); 
-    private static JPanel POnline = new JPanel();
-    private static JPanel COnline = new JPanel();
-    private JPanel CreateChatPanel = new JPanel();
-    //public static ArrayList<String> chatRoomList = null;
+    public static JFrame frame = new JFrame("Lobby"); //Create the lobby window with the title Lobby
+    private static JPanel POnline = new JPanel(); //Create a panel for people online
+    private static JPanel COnline = new JPanel(); //Create a panel for chatrooms online
+    private JPanel CreateChatPanel = new JPanel(); //Create a panel for chatroom creation
     
 	public LobbyUI() {
 		Client.lobby = this;
-		ArrayList<String> name = new ArrayList<String>();
-		
 		
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make the program close when the window is closed
         frame.setSize(500, 500); //Set the size of the window
 		
-		setLayout( new BorderLayout() );
-		POnline.setLayout(new GridLayout(0, 1));
-        COnline.setLayout(new GridLayout(0, 2));
-        CreateChatPanel.setLayout(new GridLayout(1,2));
-        createChatroom();
-        
-        System.out.println("Chat Online");
-        
-        System.out.println("Create chatroom");
+		setLayout( new BorderLayout() ); //Set the layout style
+		POnline.setLayout(new GridLayout(0, 1)); //Set the POnline panel style
+        COnline.setLayout(new GridLayout(0, 2)); //Set the COnline panel style
+        CreateChatPanel.setLayout(new GridLayout(1,2)); //Set the CreateChatPanel panel style
+        createChatroom(); //Run the createChatroom method
             
-		//Adding Components to the frame.
-        frame.getContentPane().add(BorderLayout.EAST, POnline);
-        frame.getContentPane().add(BorderLayout.WEST, COnline);
-        frame.getContentPane().add(BorderLayout.SOUTH,CreateChatPanel);
-        frame.setVisible(true);
-        System.out.println("View created");
+        frame.getContentPane().add(BorderLayout.EAST, POnline); //Set the POnline panel to the east side of the window
+        frame.getContentPane().add(BorderLayout.WEST, COnline); //Set the COnline panel to the west side of the window
+        frame.getContentPane().add(BorderLayout.SOUTH,CreateChatPanel); //Set the CreateChatPanel panel to the south side of the window
+        frame.setVisible(true); //Set the visibility of the window
         
-        Client.state = Client.State.lobby;
-		
-       
+        Client.state = Client.State.lobby; //Set the state of the client to lobby
 	}
-	
     
     public static void PeopleOnline(ArrayList<String> In) {
-    	//Get array of the usernames from the server
-    	In.remove(0);
+    	In.remove(0); //Remove the first item in the array
     	ArrayList<String> UserName = In;
-    	POnline.removeAll();
-    	System.out.println("------ Users Online --------");
-    	JLabel POTitle = new JLabel("People Online");
-        POnline.add(POTitle);
-    	for (int j=0; j<UserName.size();j++) {
-    		JLabel Person = new JLabel(UserName.get(j)); //Create a button for each person online
-    		System.out.println("Username: " + UserName.get(j));
+    	POnline.removeAll(); //Remove everything from POnline panel
+    	JLabel POTitle = new JLabel("People Online"); //Create a label
+        POnline.add(POTitle); //Add the label to the panel
+    	for (int j=0; j<UserName.size();j++) { //for-loop for creating the labels for people online
+    		JLabel Person = new JLabel(UserName.get(j)); //Create a label for each person online
     		POnline.add(Person); //Add the Label for the people online frame
     	}   
     }
     
     public void createChatroom() {
-    	JTextField CreateChatroomTextField = new JTextField(40);
-    	
-    	JButton CreateChatroomButton = new JButton("Create Chatroom");//Create a button for each chatroom online
-    	CreateChatPanel.add(CreateChatroomTextField);
-    	CreateChatPanel.add(CreateChatroomButton);
-    	CreateChatroomButton.addActionListener(new ActionListener() {
+    	JTextField CreateChatroomTextField = new JTextField(40); //Create the textfield for the chatroom names
+    	JButton CreateChatroomButton = new JButton("Create Chatroom"); //Create a button
+    	CreateChatPanel.add(CreateChatroomTextField); //Add the textfield to the panel
+    	CreateChatPanel.add(CreateChatroomButton); //Add the button to the panel
+    	CreateChatroomButton.addActionListener(new ActionListener() { //Add a listener to the button
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (CreateChatroomMethod(CreateChatroomTextField.getText())) {						
-					ChatUI chatroom = new ChatUI(CreateChatroomTextField.getText());
-					frame.setVisible(false);
+				if (CreateChatroomMethod(CreateChatroomTextField.getText())) { //Check if the CreateChatroomMethod is true			
+					ChatUI chatroom = new ChatUI(CreateChatroomTextField.getText()); //Create a new ChatUI window
+					frame.setVisible(false); //Set the visibility of the lobby to false
 				}
 			}          
 	    });
     }
+    
     public boolean CreateChatroomMethod(String TxtFieldText){
-		System.out.println(ChatroomNames);
     	try {
-    		if(TxtFieldText == "" && TxtFieldText != null) {
+    		if(TxtFieldText == "" && TxtFieldText != null) { //Check if something is written in the textfield
     			return false;
     		} else {
-    			if (ChatroomNames.size() != 0) {
-    				
-    			for(String room : ChatroomNames) {
-    				if (room.equals(TxtFieldText)) {
+    			if (ChatroomNames.size() != 0) { //Check if something is in the array
+    				for(String room : ChatroomNames) {
+    					if (room.equals(TxtFieldText)) { //Check if a chatroom with the given name already exists
     					return false;
-    				} else {
-    		    		ArrayList<String> command = new ArrayList<String>();
-    		    		command.add("CREATE CHATROOM");
-    		    		command.add(TxtFieldText);
-    		    		Client.objectOutput.writeObject(command);
-    					Client.objectOutput.flush();
+    					} else {
+    		    		ArrayList<String> command = new ArrayList<String>(); //Create an arraylist
+    		    		command.add("CREATE CHATROOM"); //Add String to the arraylist
+    		    		command.add(TxtFieldText); //Add String to the arraylist
+    		    		Client.objectOutput.writeObject(command); //Send the arraylist to the server
+    					Client.objectOutput.flush(); //Flush the outputstream
     					return true;
+    					}
     				}
-    			}
-    			} else {
-    				ArrayList<String> command = new ArrayList<String>();
-		    		command.add("CREATE CHATROOM");
-		    		command.add(TxtFieldText);
-		    		Client.objectOutput.writeObject(command);
-					Client.objectOutput.flush();
+    			} else { //If nothing is in the array
+    				ArrayList<String> command = new ArrayList<String>(); //Create an arraylist
+		    		command.add("CREATE CHATROOM"); //Add String to the arraylist
+		    		command.add(TxtFieldText); //Add String to the arraylist
+		    		Client.objectOutput.writeObject(command); //Send the arraylist to the server
+					Client.objectOutput.flush(); //Flush the outputstream
 					return true;
     			}
     		}
@@ -115,25 +90,22 @@ public class LobbyUI extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
     	return false;
     }
     
     public static ArrayList<String> getOnlineUsers() {
-    	ArrayList<String> RequestOnlineUsers = Client.ReadServer();
-		RequestOnlineUsers.remove(0);
+    	ArrayList<String> RequestOnlineUsers = Client.ReadServer(); //Get arraylist from the server
+		RequestOnlineUsers.remove(0); //Remove the first item in the arraylist
 		return RequestOnlineUsers;
     }
     
-    
-    
     public static void joinChatroom(String ChatroomName) {
     	try {
-    		ArrayList<String> command = new ArrayList<String>();
-    		command.add("JOIN CHATROOM");
-    		command.add(ChatroomName);
-    		Client.objectOutput.writeObject(command);
-			Client.objectOutput.flush();
+    		ArrayList<String> command = new ArrayList<String>(); //Create an arraylist
+    		command.add("JOIN CHATROOM"); //Add String to the arraylist
+    		command.add(ChatroomName); //Add String to the arraylist
+    		Client.objectOutput.writeObject(command); //Send the arraylist to the server
+			Client.objectOutput.flush(); //Flush the outputstream
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -141,31 +113,27 @@ public class LobbyUI extends JPanel{
     }
    
     static int i = 0;
-
     static ArrayList<String> ChatroomNames;
     public static void chatOnline(ArrayList<String> In) {
-    	//Get array of the chat rooms from the server
-    	In.remove(0);
-    	ChatroomNames = In;
-    	COnline.removeAll();
-    	JLabel SOLabel = new JLabel("Chatrooms Online"); //Set the title of the frame
-        JLabel Ghost = new JLabel("");
-        COnline.add(SOLabel); //Create the frame
-        COnline.add(Ghost);
-    	for (i=0; i<ChatroomNames.size();i++) {
-    		JLabel ChatName = new JLabel(ChatroomNames.get(i));
-    		JButton ChatroomJoinButton = new JButton("Join");//Create a button for each chatroom online
-    		COnline.add(ChatName);
+    	In.remove(0); //Remove the first item in the arraylist
+    	ChatroomNames = In; //Set ChatroomNames to In
+    	COnline.removeAll(); //Remove everything in the panel
+    	JLabel SOLabel = new JLabel("Chatrooms Online"); //Create a label for the COnline panel
+        JLabel Ghost = new JLabel(""); //Create a label with nothing in it (Ghost panel)
+        COnline.add(SOLabel); //Add the label to the panel
+        COnline.add(Ghost); //Add the label to the panel
+    	for (i=0; i<ChatroomNames.size();i++) { //for-loop for creating the labels and buttons for chatrooms online
+    		JLabel ChatName = new JLabel(ChatroomNames.get(i)); //Create a label for the given chatroom name
+    		JButton ChatroomJoinButton = new JButton("Join");//Create a button to join the chatroom
+    		COnline.add(ChatName); //Add the label to the chatrooms online frame
     		COnline.add(ChatroomJoinButton); //Add the button to the chatrooms online frame
-    		//Create a listener for the button
-    		ChatroomJoinButton.addActionListener(new ActionListener() {
+    		ChatroomJoinButton.addActionListener(new ActionListener() { //Create a listener for the button
     			int roomID = i;
     			@Override
     			public void actionPerformed(ActionEvent arg0) {
-    				joinChatroom(ChatroomNames.get(roomID));
-    				ChatUI chatroom = new ChatUI(ChatroomNames.get(roomID));
-    				frame.setVisible(false);
-    				
+    				joinChatroom(ChatroomNames.get(roomID)); //Cast the method joinChatroom for the given chatroom
+    				ChatUI chatroom = new ChatUI(ChatroomNames.get(roomID)); //Create a new ChatUI window
+					frame.setVisible(false); //Set the visibility of the lobby to false
     			}          
     	    });
     	}
