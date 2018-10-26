@@ -22,47 +22,19 @@ public class LobbyUI extends JPanel{
     
 	public LobbyUI() {
 		Client.lobby = this;
-		//Temporary username
 		ArrayList<String> name = new ArrayList<String>();
-		//name.add("TEST USER"); //only for testing
-		/*try {
-			Client.objectOutput.writeObject(name);
-			Client.objectOutput.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		
 		
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Make the program close when the window is closed
         frame.setSize(500, 500); //Set the size of the window
 		
 		setLayout( new BorderLayout() );
-		//The frame for the people online
 		POnline.setLayout(new GridLayout(0, 1));
-        JLabel POTitle = new JLabel("People Online");
-        POnline.add(POTitle);
-       
-        //Get Online people from server
-        //PeopleOnline();
-        
-        System.out.println("Online list created");
-        
-        //The frame for the chatrooms online
         COnline.setLayout(new GridLayout(0, 2));
-        JLabel SOLabel = new JLabel("Chatrooms Online"); //Set the title of the frame
-        JLabel Ghost = new JLabel("");
-        COnline.add(SOLabel); //Create the frame
-        COnline.add(Ghost);
-        //Get Online servers from server
-        
-        System.out.println("chat online before");
-        
-        //chatOnline();
+        CreateChatPanel.setLayout(new GridLayout(1,2));
+        createChatroom();
         
         System.out.println("Chat Online");
-        
-        createChatroom();
         
         System.out.println("Create chatroom");
             
@@ -74,8 +46,6 @@ public class LobbyUI extends JPanel{
         System.out.println("View created");
         
         Client.state = Client.State.lobby;
-        
-		//Run the client requesting on another thread.
 		
        
 	}
@@ -87,6 +57,8 @@ public class LobbyUI extends JPanel{
     	ArrayList<String> UserName = In;
     	POnline.removeAll();
     	System.out.println("------ Users Online --------");
+    	JLabel POTitle = new JLabel("People Online");
+        POnline.add(POTitle);
     	for (int j=0; j<UserName.size();j++) {
     		JLabel Person = new JLabel(UserName.get(j)); //Create a button for each person online
     		System.out.println("Username: " + UserName.get(j));
@@ -169,6 +141,10 @@ public class LobbyUI extends JPanel{
     	In.remove(0);
     	ChatroomNames = In;
     	COnline.removeAll();
+    	JLabel SOLabel = new JLabel("Chatrooms Online"); //Set the title of the frame
+        JLabel Ghost = new JLabel("");
+        COnline.add(SOLabel); //Create the frame
+        COnline.add(Ghost);
     	for (i=0; i<ChatroomNames.size();i++) {
     		JLabel ChatName = new JLabel(ChatroomNames.get(i));
     		JButton ChatroomJoinButton = new JButton("Join");//Create a button for each chatroom online
