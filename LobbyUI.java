@@ -32,9 +32,6 @@ public class LobbyUI extends JPanel{
         frame.getContentPane().add(BorderLayout.WEST, COnline); //Set the COnline panel to the west side of the window
         frame.getContentPane().add(BorderLayout.SOUTH,CreateChatPanel); //Set the CreateChatPanel panel to the south side of the window
         frame.setVisible(true); //Set the visibility of the window
-        
-        
-
 	}
     
     public static void PeopleOnline(ArrayList<String> In) {
