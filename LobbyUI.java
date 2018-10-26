@@ -40,7 +40,7 @@ public class LobbyUI extends JPanel{
             
 		//Adding Components to the frame.
         frame.getContentPane().add(BorderLayout.EAST, POnline);
-        frame.getContentPane().add(BorderLayout.CENTER, COnline);
+        frame.getContentPane().add(BorderLayout.WEST, COnline);
         frame.getContentPane().add(BorderLayout.SOUTH,CreateChatPanel);
         frame.setVisible(true);
         System.out.println("View created");
@@ -63,8 +63,7 @@ public class LobbyUI extends JPanel{
     		JLabel Person = new JLabel(UserName.get(j)); //Create a button for each person online
     		System.out.println("Username: " + UserName.get(j));
     		POnline.add(Person); //Add the Label for the people online frame
-    	}             
-    	
+    	}   
     }
     
     public void createChatroom() {
@@ -76,23 +75,22 @@ public class LobbyUI extends JPanel{
     	CreateChatroomButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (CreateChatroomMethod(CreateChatroomTextField.getText())) {
-						
+				if (CreateChatroomMethod(CreateChatroomTextField.getText())) {						
 					ChatUI chatroom = new ChatUI(CreateChatroomTextField.getText());
 					frame.setVisible(false);
-    				
 				}
 			}          
 	    });
     }
     public boolean CreateChatroomMethod(String TxtFieldText){
+		System.out.println(ChatroomNames);
     	try {
     		if(TxtFieldText == "" && TxtFieldText != null) {
     			return false;
     		} else {
-    			
-    			for(String room : ChatroomNames ) {
+    			if (ChatroomNames.size() != 0) {
     				
+    			for(String room : ChatroomNames) {
     				if (room.equals(TxtFieldText)) {
     					return false;
     				} else {
@@ -103,6 +101,14 @@ public class LobbyUI extends JPanel{
     					Client.objectOutput.flush();
     					return true;
     				}
+    			}
+    			} else {
+    				ArrayList<String> command = new ArrayList<String>();
+		    		command.add("CREATE CHATROOM");
+		    		command.add(TxtFieldText);
+		    		Client.objectOutput.writeObject(command);
+					Client.objectOutput.flush();
+					return true;
     			}
     		}
 		} catch (IOException e) {
@@ -135,7 +141,8 @@ public class LobbyUI extends JPanel{
     }
    
     static int i = 0;
-    static ArrayList<String> ChatroomNames = null;
+
+    static ArrayList<String> ChatroomNames;
     public static void chatOnline(ArrayList<String> In) {
     	//Get array of the chat rooms from the server
     	In.remove(0);
