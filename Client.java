@@ -105,7 +105,4 @@ public class Client {
 	        		}    
 		}).start();
 	}//end of main
-	
-	public static void InterpretResponse(ArrayList<String> _Input) {				
-	}	
 }
