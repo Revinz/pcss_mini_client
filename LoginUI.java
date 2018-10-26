@@ -25,7 +25,7 @@ import javax.swing.UIManager;
 
 class LoginUI {
     boolean     loggedIn = false;
-    String      appName     = "Login you piece of shit";
+    String      appName     = "Login";
     JFrame      newFrame    = new JFrame(appName);
     JButton     sendMessage;
     JTextField  messageBox;
