@@ -40,15 +40,10 @@ class ChatUI {
     
     public static String [] ChatRoomNames = { };
 
-    public ChatUI(String chatroomName) {
-    	
+    public ChatUI(String chatroomName) {   	
     	roomName = chatroomName;
 		// TODO Auto-generated constructor stub
     	chatDisplay();
-    	
-    	Client.state = Client.State.chatroom;
-    	
-       
 	}
     	// TODO Get chatroom log
     
@@ -224,7 +219,7 @@ class ChatUI {
             boolean chatroom = false;
             Client.lobby.frame.setVisible(true);
             newFrame.dispose();
-            Client.state = Client.state.lobby;
+
             
 
         }

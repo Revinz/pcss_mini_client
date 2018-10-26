@@ -16,29 +16,17 @@ import java.net.Socket;
 
 
 public class Client {
-	//Username in a String
-	//Scanner to receive input
-	static String userName;
-	static String hostName = "localhost";
-	static int port = 8000;
-	public static ObjectInputStream objectInput;
-	public static ObjectOutputStream objectOutput;
-	public static Socket socket;
-	static Scanner scan = new Scanner(System.in);
-	static ArrayList<String> Input = null;
-	public final static Lock lock = new ReentrantLock();
-	public static LobbyUI lobby = null;
-	
-	enum State {
-		chatroom,
-		login,
-		lobby
-	}
-	
-	public static State state = null;
+	static String userName; //Clients username
+	static String hostName = "localhost"; //Host IP address
+	static int port = 8000; //Host port number
+	public static ObjectInputStream objectInput; //Stream for receiving information
+	public static ObjectOutputStream objectOutput; //Stream for sending information
+	public static Socket socket; //Socket
+	static ArrayList<String> Input = null; //ArrayList to handle incoming information
+	public final static Lock lock = new ReentrantLock(); //To help synchronize the information comming in
+	public static LobbyUI lobby = null; //LobbyUI object
 	
 	public static ArrayList<String> ReadServer() {
-
 		synchronized (lock) {
 			try {
 				if(objectInput != null)
@@ -57,55 +45,46 @@ public class Client {
 			System.out.print("Nothing returned");
 			return null;
 		}
-		
-		
+
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		LoginUI login = new LoginUI();
+		LoginUI login = new LoginUI(); //Starts Login screen
 		
-		new Thread(() -> {
+		new Thread(() -> {  //Thread that will handle information from server
 
 	        while (true){
 	        	
 	        	ArrayList<String> Input = null;
                 System.out.println("Chatroom reading from server");
-                Input = Client.ReadServer();
+                Input = Client.ReadServer(); //Continuesly waits for new information from server
 	        	
-                if (Input == null)
+                if (Input == null) //When there is no information received
                 {
                     continue;
                 }
 	        	
-                else if (Input.get(0).equals("ONLINE USERS")) {
+                else if (Input.get(0).equals("ONLINE USERS")) { //When information about new users in the lobby is received
 			        	System.out.println("server sending online user list");
 			        	LobbyUI.PeopleOnline(Input);
 			        	lobby.frame.revalidate();
 			        	lobby.frame.repaint();
 	        		}
-                else if (Input.get(0).equals("UPDATE CHATROOMS")) {
+                else if (Input.get(0).equals("UPDATE CHATROOMS")) { //When information about chatrooms is received
 			        	System.out.println("server sending chatroom list");
 			        	LobbyUI.chatOnline(Input);
 			        	lobby.frame.revalidate();
 			        	lobby.frame.repaint();
 		        	}
-                else if (Input.get(0).equals("CHATROOM USERS")) {
+                else if (Input.get(0).equals("CHATROOM USERS")) { //When information about chatroom users is received
 		        	System.out.println("server sending chatroom user list");
 		        	ChatUI.updateUserlist(Input);
 		        	
 	        	}
-	        	
-	        	
-	        	
-	        		//Get the input from the client
-	                	
-
-	                //If null skip checking for stuff
-	                
-	                
-                else if (Input.get(0).equals("NEW MESSAGE")) {
+   
+                else if (Input.get(0).equals("NEW MESSAGE")) { //When a new message is received in the chatroom
 	             	
 		 					try {
 								ChatUI.getMessages(Input);
@@ -115,39 +94,18 @@ public class Client {
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-							} //runs the method for printing the new message
-		 					
-		 					//Input = null; //empty input after message is recieved
-		                
-	                	}
-	                
-	                	//getOnlineUsers(); //add to UI of chatroom
-	                	
+							} //runs the method for printing the new message		                
+	                	}	                            	
 	                	try {
 	    					Thread.sleep(20);
 	    				} catch (InterruptedException e) {
 	    					// TODO Auto-generated catch block
 	    					e.printStackTrace();
 	    				}
-	        		}
-	        
-
+	        		}    
 		}).start();
-		
 	}//end of main
 	
-	public static void InterpretResponse(ArrayList<String> _Input) {
-		
-		
-				
-	}
-
-	
-	//Communicate with server send / receive messages
-	
-
-	
-
-	
-	
+	public static void InterpretResponse(ArrayList<String> _Input) {				
+	}	
 }

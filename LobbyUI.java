@@ -44,8 +44,7 @@ public class LobbyUI extends JPanel{
         frame.getContentPane().add(BorderLayout.SOUTH,CreateChatPanel);
         frame.setVisible(true);
         System.out.println("View created");
-        
-        Client.state = Client.State.lobby;
+
 		
        
 	}

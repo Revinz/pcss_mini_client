@@ -102,7 +102,7 @@ class LoginUI {
     // This register if the username and/or IP works or not
     class enterServerButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-        	Client.state = Client.State.login;
+
             username = usernameChooser.getText();
             password = passwordChooser.getText();
             if ((password.length() < 1) || (username.length() < 1)) {
