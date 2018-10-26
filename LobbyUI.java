@@ -134,7 +134,7 @@ public class LobbyUI extends JPanel{
     			int roomID = i;
     			@Override
     			public void actionPerformed(ActionEvent arg0) {
-    				joinChatroom(ChatroomNames.get(roomID)); //Cast the method joinChatroom for the given chatroom
+    				joinChatroom(ChatroomNames.get(roomID)); //Call the method joinChatroom for the given chatroom
     				ChatUI chatroom = new ChatUI(ChatroomNames.get(roomID)); //Create a new ChatUI window
 					frame.setVisible(false); //Set the visibility of the lobby to false
     			}          
