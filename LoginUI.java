@@ -11,7 +11,7 @@ public class LoginUI {
     String  username;                                   // A string that contains the username
     String  password;                                   // A string that contains the IP-address
     String      appName     = "Login";                  // The name of the window
-    JFrame      newFrame    = new JFrame(appName);      // The window
+    JFrame      newFrame    = new JFrame(appName);      //
     JTextField  usernameChooser;                        // The typed in username
     JTextField  passwordChooser;                        // The typed in IP-address
     JFrame      preFrame;                               // The window
@@ -38,7 +38,7 @@ public class LoginUI {
     //This is the first GUI  "username and password"
     public void loginUI() {
         newFrame.setVisible(false);
-        preFrame = new JFrame(appName);
+        preFrame = new JFrame(appName);                                 // This add the window name to the window
         usernameChooser = new JTextField(15);                   // This is the username type in
         passwordChooser = new JTextField(15);                   // This is the IP-address type in
         JLabel chooseUsernameLabel = new JLabel("Username:");      // This is the label for the username type in
@@ -77,19 +77,19 @@ public class LoginUI {
         prePanel.add(passwordChooser, dreRight);    // adds the "IP-address type in" to the location in line 65-66
 
 
-        preFrame.add(BorderLayout.CENTER, prePanel); // This import the setings to
-        preFrame.add(BorderLayout.SOUTH, acontinue); // This sets the lo button
+        preFrame.add(BorderLayout.CENTER, prePanel); // This import the "username" label, "username type in", "IP-address" label & "IP-address type in"
+        preFrame.add(BorderLayout.SOUTH, acontinue); // This sets the location of the "Continue" button & import it the the window
         preFrame.setSize(500, 500);     // sets the size of the window
-        preFrame.setVisible(true);
+        preFrame.setVisible(true);                   // start the window
 
     }
 
-
+    // This class contains what the button do
     class enterServerButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             username = usernameChooser.getText();
             password = passwordChooser.getText();
-            if ((password.length() < 1) || (username.length() < 1)) {
+            if ((password.length() < 1) || (username.length() < 1)) {           // This ensures that at least 1 character needs to be in username & IP-address
                 System.out.println("Enter a valid username or a IP-address");
             } else {
                 String serverAddress = JOptionPane.showInputDialog(
