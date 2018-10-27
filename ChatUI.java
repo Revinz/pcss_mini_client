@@ -94,7 +94,7 @@ class ChatUI {
 
     }
 
-    public void leaveRoom() //activate on send message
+    public void leaveRoom() //activate in back button
     {
         try {
             ArrayList<String> command = new ArrayList<String>();
