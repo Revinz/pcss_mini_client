@@ -3,9 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class LoginUI {
     String  username;                                   // A string that contains the username
@@ -17,26 +21,9 @@ public class LoginUI {
     JFrame      preFrame;                               // The window
 
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager
-                            .getSystemLookAndFeelClassName());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                LoginUI mainGUI = new LoginUI();
-                mainGUI.loginUI();
-            }
-        });
-
-    }
-
 
     //This is the first GUI  "username and password"
-    public void loginUI() {
+    public LoginUI() {
         newFrame.setVisible(false);
         preFrame = new JFrame(appName);                                 // This add the window name to the window
         usernameChooser = new JTextField(15);                   // This is the username type in
@@ -92,29 +79,25 @@ public class LoginUI {
             if ((password.length() < 1) || (username.length() < 1)) {           // This ensures that at least 1 character needs to be in username & IP-address
                 System.out.println("Enter a valid username or a IP-address");
             } else {
-                // THe IP-address for the server
-                String serverAddress = JOptionPane.showInputDialog(
-                        preFrame,
-                        "Enter IP Address of the Server:",
-                        JOptionPane.QUESTION_MESSAGE);
-
-                Socket usernameSocket = null;
-                //These lines establish the socket connection between the client and the server
-                try {
-                    usernameSocket = new Socket(serverAddress, 8000);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                PrintStream OUT = null;
-                try {
-                    OUT = new PrintStream(usernameSocket.getOutputStream());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                OUT.println(username);
-
-                //end the display
-                preFrame.setVisible(false);
+            	Client.hostName = password;
+            	try {
+            		Client.socket = new Socket(Client.hostName, Client.port);
+            		Client.objectInput = new ObjectInputStream(Client.socket.getInputStream());
+            		Client.objectOutput = new ObjectOutputStream(Client.socket.getOutputStream());
+            		ArrayList<String> command = new ArrayList<String>();
+            		command.add(username);
+            		Client.userName = username;
+            		Client.objectOutput.writeObject(command);
+        			Client.objectOutput.flush();
+        			LobbyUI Lobby = new LobbyUI();
+        			preFrame.setVisible(false);
+        			
+            		}
+            		catch (UnknownHostException e) {
+                        System.err.println("Don't know about host: " + Client.hostName);
+                    } catch (IOException e) {
+                        System.err.println("Couldn't get I/O for the connection to:" + Client.hostName);
+                    }
 
             }
         }
