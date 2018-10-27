@@ -103,6 +103,6 @@ public class Client {
 	    					e.printStackTrace();
 	    				}
 	        		}    
-		}).start();
+		}).start(); //starts the thread
 	}//end of main
 }
