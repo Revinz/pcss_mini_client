@@ -92,14 +92,16 @@ public class LoginUI {
             if ((password.length() < 1) || (username.length() < 1)) {           // This ensures that at least 1 character needs to be in username & IP-address
                 System.out.println("Enter a valid username or a IP-address");
             } else {
+                // THe IP-address for the server
                 String serverAddress = JOptionPane.showInputDialog(
                         preFrame,
                         "Enter IP Address of the Server:",
                         JOptionPane.QUESTION_MESSAGE);
 
                 Socket usernameSocket = null;
+                //These lines establish the socket connection between the client and the server
                 try {
-                    usernameSocket = new Socket(serverAddress, 4009);
+                    usernameSocket = new Socket(serverAddress, 8000);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
